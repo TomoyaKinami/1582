@@ -1,0 +1,51 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+Login
+{% endblock %}
+
+{% block headline %}
+{{title}}
+{% endblock %}
+
+{% block content %}
+{% if err %}
+<p class="alert alert-info">
+{% else %}
+<p class="alert alert-danger">
+{% endif %}
+{{message}}</p>
+
+<div class="card">
+    <div class="card-header">
+        <h4 class="card-title">
+            Login form:
+        </h4>
+    </div>
+    <div class="card-body">
+        <form method="post" action="/login">
+            <div class="form-group">
+                <label for="id">id</label>
+                <input type="text" class="form-control" id="id" name="id" value="{{id}}">
+                <small class="form-text text-muted">
+                    ※IDを入力
+                </small>
+            </div>
+            <div class="form-group">
+                <label for="pass">password</label>
+                <input type="password" class="form-control" id="pass" name="pass">
+                <small class="form-text text-muted">
+                    ※パスワードを入力
+                </small>
+            </div>
+            <div class="form-group">
+                <input type="submit" class="btn btn-primary" value="Login"></button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block footer %}
+copyright 2022 Tomoya-Kinami.
+{% endblock %} 

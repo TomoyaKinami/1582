@@ -1,19 +1,51 @@
 {% extends 'layout.html' %}
 {% block title %}
-Index
-{% endblock %}
-
-{% block headline %}
 {{title}}
 {% endblock %}
 
+{% block refresh %}
+<meta http-equiv="refresh" content="300; URL=">
+{% endblock %}
+
 {% block content %}
-<div class="text-right h6">
-    <a href="/logout">Logout</a>
+<div style="background-color:rgb(111, 0, 255); position: fixed; top:0px; left:0px; width:100%; z-index: 100;">
+<nav class="navbar navbar-expand-lg text-white">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="" style="color:white; font-weight: bold; font-family: 'Meiryo UI'; font-size: 30px;">{{message}}</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/" style="color:white; font-weight: bold; font-family: 'Meiryo UI'; font-size: 25px;">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/setting" style="color:white; font-weight: bold; font-family: 'Meiryo UI'; font-size: 25px;">Setting</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color:white; font-weight: bold; font-family: 'Meiryo UI'; font-size: 25px;">
+              Class
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown" style="background-color:rgb(111, 0, 255); width:max-content;">
+                {% for item in msg4 %}
+              <li><a class="dropdown-item" href={{item[4]}} style="color: white; font-weight:bold; font-family:'Meiryo UI';">{{item[1]}}</a></li>
+              {% endfor %}
+              <li><hr class="dropdown-divider" style="background-color:white;"></li>
+              <li><p style="color: white; font-weight:bold; font-family:'Meiryo UI'; margin: 10px;">{{msg2}}</p></li>
+            </ul>
+          </li>  
+        </ul>
+      </div>
+    </div>
+    
+  </nav>
+  <div style="position:absolute; top:15px; right:80px;">
+        <a class="nav-link" href="/logout" style="color:white; font-weight: bold; font-family: 'Meiryo UI'; font-size: 25px;">Logout</a>
+    </div>
 </div>
-<div class="alert alert-success p-1">
-    <h5>{{message}}<br>{{msg2}}</h5>
-</div>
+<div style="position: absolute; top:80px; left:0px; z-index: -100;">
+
 <div id="app" class="m-3">
     <mycomp/>
 </div>
@@ -21,84 +53,73 @@ Index
 {% raw %}
 <script type='text/x-template' id='mycomp-template'>
     <div>
-        <a v-bind:href="random"><button type="button" class="btn btn-lg btn-warning font-weight-bold mt-3 mb-3 text-black">最新の状態に更新する(ブラウザのリフレッシュでも同じ)</button></a>
-        <a v-bind:href="random+'/startclass'"><button type="button" class="btn btn-lg btn-danger font-weight-bold mb-3">授業をスタートする(全員のリアクションを「休み」にする)</button></a>
-        <a v-bind:href="random+'/startvote'"><button type="button" class="btn btn-lg btn-success font-weight-bold mb-4">発言を募集する(休んでいない人のリアクションを「未投票」にする)</button></a>
-        <a v-bind:href="random+'/finishvote'"><button type="button" class="btn btn-lg btn-success font-weight-bold mb-4">発言の募集を終了する(ptの加算)</button></a>
+        <a v-bind:href="random"><button type="button" class="btn btn-lg btn-warning font-weight-bold mt-3 mb-3 text-black"><h4 style='font-weight:bold; margin:2px;'>最新の状態に更新する(ブラウザのリフレッシュでも同じ)</h4></button></a><br>
+        <template v-if="choice=='1'">
+            <button type="button" class="btn btn-lg btn-danger font-weight-bold mb-3 disabled"><h4 style='font-weight:bold; margin:2px;'>授業をスタートする(全員のリアクションを「休み」にする)</h4></button>
+            <a v-bind:href="random+'/finishclass'"><button type="button" class="btn btn-lg btn-danger font-weight-bold mb-3"><h4 style='font-weight:bold; margin:2px;'>授業を終了する(リアクションの登録を不可にする)</h4></button></a>
+            <a v-bind:href="random+'/startvote'"><button type="button" class="btn btn-lg btn-success font-weight-bold mb-4"><h4 style='font-weight:bold; margin:2px;'>発言を募集する(休んでいない人のリアクションを「未投票」にする)</h4></button></a>
+            <button type="button" class="btn btn-lg btn-success font-weight-bold mb-4 disabled"><h4 style='font-weight:bold; margin:2px;'>発言の募集を終了する(ptの加算)</h4></button>
+        </template>
+        <template v-else-if="choice=='2'">
+            <button type="button" class="btn btn-lg btn-danger font-weight-bold mb-3 disabled"><h4 style='font-weight:bold; margin:2px;'>授業をスタートする(全員のリアクションを「休み」にする)</h4></button>
+            <button type="button" class="btn btn-lg btn-danger font-weight-bold mb-3 disabled"><h4 style='font-weight:bold; margin:2px;'>授業を終了する(リアクションの登録を不可にする)</h4></button>
+            <button type="button" class="btn btn-lg btn-success font-weight-bold mb-4 disabled"><h4 style='font-weight:bold; margin:2px;'>発言を募集する(休んでいない人のリアクションを「未投票」にする)</h4></button>
+            <a v-bind:href="random+'/finishvote'"><button type="button" class="btn btn-lg btn-success font-weight-bold mb-4"><h4 style='font-weight:bold; margin:2px;'>発言の募集を終了する(ptの加算)</h4></button></a>
+        </template>
+        <template v-else>
+            <a v-bind:href="random+'/startclass'"><button type="button" class="btn btn-lg btn-danger mb-3"><h4 style='font-weight:bold; margin:2px;'>授業をスタートする(全員のリアクションを「休み」にする)</h4></button></a>
+            <button type="button" class="btn btn-lg btn-danger font-weight-bold mb-3 disabled"><h4 style='font-weight:bold; margin:2px;'>授業を終了する(リアクションの登録を不可にする)</h4></button>
+            <button type="button" class="btn btn-lg btn-success font-weight-bold mb-4 disabled"><h4 style='font-weight:bold; margin:2px;'>発言を募集する(休んでいない人のリアクションを「未投票」にする)</h4></button>
+            <button type="button" class="btn btn-lg btn-success font-weight-bold mb-4 disabled"><h4 style='font-weight:bold; margin:2px;'>発言の募集を終了する(ptの加算)</h4></button>
+        </template>
         <div class="card">
-            <div class="card-header bg-primary text-white font-weight-bold h5" style='height:50px;'>
-              発言したい!!!<a v-bind:href="random+'/random1'"><button type="button" class="btn btn-light font-weight-bold" style='position: absolute; top:5px; right:10px;'>ランダムに並び替え</button></a>
-            </div>
+            <div class="card-header bg-primary text-white font-weight-bold h5" style='height:50px;'><h4 style='font-weight:bold; margin:2px;'>
+              発言したい!!!<a v-bind:href="random+'/random1'"><button type="button" class="btn btn-light font-weight-bold" style='position: absolute; top:5px; right:10px;'><h5 style='font-weight:bold; margin:2px;'>ランダムに並び替え</h5></button></a>
+            </h4></div>
             <div class="card-body" style='background-color:#deedff;' id='status1'>
                 <p v-html="status_1" class='m-0 p-0'></p>
             </div>
         </div>
         <div class="card">
-            <div class="card-header bg-success text-white font-weight-bold h5" style='height:50px;'>
-              当てられてもOK<a v-bind:href="random+'/random2'"><button type="button" class="btn btn-light font-weight-bold" style='position: absolute; top:5px; right:10px;'>ランダムに並び替え</button></a>
-            </div>
+            <div class="card-header bg-success text-white font-weight-bold h5" style='height:50px;'><h4 style='font-weight:bold; margin:2px;'>
+              当てられてもOK<a v-bind:href="random+'/random2'"><button type="button" class="btn btn-light font-weight-bold" style='position: absolute; top:5px; right:10px;'><h5 style='font-weight:bold; margin:2px;'>ランダムに並び替え</h5></button></a>
+            </h4></div>
             <div class="card-body" style='background-color:#e7fde9;'>
                 <p v-html="status_2" class='m-0 p-0'></p>
             </div>
         </div>
         <div class="card">
-            <div class="card-header bg-danger text-white font-weight-bold h5" style='height:50px;'>
+            <div class="card-header bg-danger text-white font-weight-bold h5" style='height:50px;'><h4 style='font-weight:bold; margin:2px;'>
               分からない...
-            </div>
+            </h4></div>
             <div class="card-body" style='background-color:#fde7e7;'>
                 <p v-html="status_3" class='m-0 p-0'></p>
             </div>
         </div>
         <div class="card">
-            <div class="card-header bg-warning text-black font-weight-bold h5" style='height:50px;'>
+            <div class="card-header bg-warning text-black font-weight-bold h5" style='height:50px;'><h4 style='font-weight:bold; margin:2px;'>
               眠いzzz
-            </div>
+            </h4></div>
             <div class="card-body" style='background-color:#fafde7;'>
                 <p v-html="status_4" class='m-0 p-0'></p>
             </div>
         </div>
         <div class="card">
-            <div class="card-header bg-secondary text-white font-weight-bold h5" style='height:50px;'>
+            <div class="card-header bg-secondary text-white font-weight-bold h5" style='height:50px;'><h4 style='font-weight:bold; margin:2px;'>
                 未投票(授業を聞いていないかもしれない)
-            </div>
+            </h4></div>
             <div class="card-body">
                 <p v-html="status_5" class='m-0 p-0'></p>
             </div>
         </div>
         <div class="card">
-            <div class="card-header bg-dark text-white font-weight-bold h5" style='height:50px;'>
+            <div class="card-header bg-dark text-white font-weight-bold h5" style='height:50px;'><h4 style='font-weight:bold; margin:2px;'>
                 休み(このサイトにログインしていない)
-            </div>
+            </h4></div>
             <div class="card-body">
                 <p v-html="status_0" class='m-0 p-0'></p>
             </div>
         </div>
-        <div v-if='flg=="1"'>
-            <div class="alert alert-primary" role='alert'>
-                <h1 class="h5">あなたは今、発言したい! を選択しています。</h1>
-            </div>
-        </div>
-        <div v-if='flg=="2"'>
-            <div class="alert alert-success" role='alert'>
-                <h1 class="h5">あなたは今、当てられてもOK を選択しています。</h1>
-            </div>
-        </div>
-        <div v-if='flg=="3"'>
-            <div class="alert alert-danger" role='alert'>
-                <h1 class="h5">あなたは今、分からない を選択しています。</h1>
-            </div>
-        </div>
-        <div v-if='flg=="4"'>
-            <div class="alert alert-info" role='alert'>
-                <h1 class="h5">あなたは今、眠い を選択しています。</h1>
-            </div>
-        </div>
-        <ul class="list-group">
-            <a class="list-group-item list-group-item-action list-group-item-primary" v-on:click="action1"><p class="text-black font-weight-bold text-center">発言したいです。</p></a>
-            <a class="list-group-item list-group-item-action list-group-item-info" v-on:click="action2">当てられてもOK</a>
-            <a class="list-group-item list-group-item-action list-group-item-success" v-on:click="action3">分からないなー</a>
-            <a class="list-group-item list-group-item-action list-group-item-secondary" v-on:click="action4">眠い</a>
-        </ul>
     </div>
 </script>
 {% endraw %}
@@ -107,104 +128,19 @@ Index
         template:'#mycomp-template',
         data:function(){
             return{
-                flg:String({{msg3|tojson}}),
                 status_1:{{status1|tojson}},
                 status_2:{{status2|tojson}},
                 status_3:{{status3|tojson}},
                 status_4:{{status4|tojson}},
                 status_5:{{status5|tojson}},
                 status_0:{{status0|tojson}},
-                random:location.href
-            }
-        },
-        methods:{
-            action1:function(e){  
-                let formData=new FormData();
-                var url2={{msg5|tojson}};
-                var url3=''
-                for(var i=1; i<url2.length-1; i++){url3 += url2.charAt( i );}
-                formData.append("status","1")
-                formData.append("url",url3);
-                let self=this;
-                $.ajax({
-                    type:'POST',
-                    url:'/class/post',
-                    data:formData,
-                    processData:false,
-                    contentType:false,
-                    success:function(data){
-                        self.flg=data;},
-                    error:function(request,status,err){
-                        console.log('送信失敗');
-                    }
-                });
-            },
-            action2:function(e){  
-                let formData=new FormData();
-                var url2={{msg5|tojson}};
-                var url3=''
-                for(var i=1; i<url2.length-1; i++){url3 += url2.charAt( i );}
-                formData.append("status","2")
-                formData.append("url",url3);
-                let self=this;
-                $.ajax({
-                    type:'POST',
-                    url:'/class/post',
-                    data:formData,
-                    processData:false,
-                    contentType:false,
-                    success:function(data){
-                        self.flg=data;},
-                    error:function(request,status,err){
-                        console.log('送信失敗');
-                    }
-                });
-            },
-            action3:function(e){  
-                let formData=new FormData();
-                var url2={{msg5|tojson}};
-                var url3=''
-                for(var i=1; i<url2.length-1; i++){url3 += url2.charAt( i );}
-                formData.append("status","3")
-                formData.append("url",url3);
-                let self=this;
-                $.ajax({
-                    type:'POST',
-                    url:'/class/post',
-                    data:formData,
-                    processData:false,
-                    contentType:false,
-                    success:function(data){
-                        self.flg=data;},
-                    error:function(request,status,err){
-                        console.log('送信失敗');
-                    }
-                });
-            },
-            action4:function(e){  
-                let formData=new FormData();
-                var url2={{msg5|tojson}};
-                var url3=''
-                for(var i=1; i<url2.length-1; i++){url3 += url2.charAt( i );}
-                formData.append("status","4")
-                formData.append("url",url3);
-                let self=this;
-                $.ajax({
-                    type:'POST',
-                    url:'/class/post',
-                    data:formData,
-                    processData:false,
-                    contentType:false,
-                    success:function(data){
-                        self.flg=data;},
-                    error:function(request,status,err){
-                        console.log('送信失敗');
-                    }
-                });
+                random:location.href,
+                choice:{{choice|tojson}}
             }
         }});
     new Vue({
         el:'#app',
         });
 </script>
+</div>
 {% endblock %}

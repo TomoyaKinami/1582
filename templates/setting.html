@@ -17,10 +17,10 @@ Index
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link disabled" aria-current="page" style="color:white; font-weight: bold; font-family: 'Meiryo UI'; font-size: 25px; opacity: .5;">Home</a>
+                        <a class="nav-link" href="/" aria-current="page" style="color:white; font-weight: bold; font-family: 'Meiryo UI'; font-size: 25px;">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/setting" style="color:white; font-weight: bold; font-family: 'Meiryo UI'; font-size: 25px;">Setting</a>
+                        <a class="nav-link disabled" style="color:white; font-weight: bold; font-family: 'Meiryo UI'; font-size: 25px; opacity: .5;">Setting</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color:white; font-weight: bold; font-family: 'Meiryo UI'; font-size: 25px;">
@@ -44,15 +44,48 @@ Index
     <h2 class='p-3 h5 text-center' style="font-weight: bold; font-size: 25px;">
         参加したい授業を選択してください!!!
     </h2>
-    <div>
-        {% for part in msg2 %}
-        <div class="card bg-light mb-2" style="width:100%; border-left-width: 10px; border-left-color:{{part[7]}}">
-                <div class="card-body">
-                    <h5 class="card-title" style="font-weight:bold;">{{part[1]}}</h5>
-                    <p class="card-text">担当教員:{{part[2]}}   教室:{{part[3]}}  <a href={{part[4]}}><button class="btn btn-primary btn-lg text-right" style="position: absolute; right:20px; bottom:20px; font-weight: bold;">参加</button></a></p>   
-                </div>
-        </div>
-        {% endfor %}
+    
+
+<div class="card m-3">
+    <div class="card-header">
+        {% if err=='1' %}
+        <h4 class="card-title text-black" style="font-weight: bold; font-family:'Meiryo UI';">
+        {% elif err=='2' %}
+        <h4 class="card-title text-success" style="font-weight: bold; font-family:'Meiryo UI';">
+        {% else %}
+        <h4 class="card-title text-danger" style="font-weight: bold; color:red; font-family:'Meiryo UI';">
+        {% endif %}
+            {{msg3}}
+        </h4>
     </div>
+    <div class="card-body">
+        <form method="post" action="/setting">
+            <div class="form-group">
+                <label for="id">old password</label>
+                <input type="password" class="form-control" id="oldpass" name="oldpass" required>
+                <small class="form-text text-muted">
+                    ※変更前のパスワードを入力
+                </small>
+            </div>
+            <div class="form-group mt-2">
+                <label for="pass">new password</label>
+                <input type="password" class="form-control" id="newpass" name="newpass" required>
+                <small class="form-text text-muted">
+                    ※新しいパスワードを入力
+                </small>
+            </div>
+            <div class="form-group mt-2">
+                <label for="pass">check</label>
+                <input type="password" class="form-control" id="newpassagain" name="newpassagain" required>
+                <small class="form-text text-muted">
+                    ※新しいパスワードを入力(再入力)
+                </small>
+            </div>
+            <div class="form-group mt-2">
+                <input type="submit" class="btn btn-primary" value="send"></button>
+            </div>
+        </form>
+    </div>
+</div>
 </div>
 {% endblock %}

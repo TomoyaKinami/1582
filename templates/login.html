@@ -4,21 +4,52 @@
 Login
 {% endblock %}
 
-{% block headline %}
-{{title}}
+{% block refresh %}
 {% endblock %}
 
 {% block content %}
+<div style="background-color:rgb(111, 0, 255); position: fixed; top:0px; left:0px; width:100%; z-index: 100;">
+    <nav class="navbar navbar-expand-lg text-white">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="" style="color:white; font-weight: bold; font-family: 'Meiryo UI'; font-size: 30px;">IDM</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link disabled" aria-current="page" style="color:white; font-weight: bold; font-family: 'Meiryo UI'; font-size: 25px; opacity: .5;">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link disabled" style="color:white; font-weight: bold; font-family: 'Meiryo UI'; font-size: 25px; opacity: .5;">Setting</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link disabled dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color:white; font-weight: bold; font-family: 'Meiryo UI'; font-size: 25px; opacity: .5;">
+                  Class
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown" style="background-color:rgb(111, 0, 255); width:max-content;">
+                </ul>
+              </li>  
+            </ul>
+          </div>
+        </div>
+        
+      </nav>
+      <div style="position:absolute; top:15px; right:80px; opacity: .5;">
+            <a class="nav-link disabled" style="color:white; font-weight: bold; font-family: 'Meiryo UI'; font-size: 25px;">Logout</a>
+        </div>
+    </div>
+    <div style="position: absolute; top:80px; left:7px; right: 7px; z-index: -100;">
 {% if err %}
-<p class="alert alert-info">
+<p class="alert alert-info m-3">
 {% else %}
-<p class="alert alert-danger">
+<p class="alert alert-danger m-3">
 {% endif %}
 {{message}}</p>
 
-<div class="card">
+<div class="card m-3">
     <div class="card-header">
-        <h4 class="card-title">
+        <h4 class="card-title" style="font-weight: bold; font-family:'Meiryo UI'">
             Login form:
         </h4>
     </div>
@@ -26,23 +57,24 @@ Login
         <form method="post" action="/login">
             <div class="form-group">
                 <label for="id">id</label>
-                <input type="text" class="form-control" id="id" name="id" value="{{id}}">
+                <input type="text" class="form-control" id="id" name="id" value="{{id}}" required>
                 <small class="form-text text-muted">
                     ※IDを入力
                 </small>
             </div>
-            <div class="form-group">
+            <div class="form-group mt-2">
                 <label for="pass">password</label>
-                <input type="password" class="form-control" id="pass" name="pass">
+                <input type="password" class="form-control" id="pass" name="pass" required>
                 <small class="form-text text-muted">
                     ※パスワードを入力
                 </small>
             </div>
-            <div class="form-group">
+            <div class="form-group mt-2">
                 <input type="submit" class="btn btn-primary" value="Login"></button>
             </div>
         </form>
     </div>
+</div>
 </div>
 {% endblock %}
 

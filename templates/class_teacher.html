@@ -44,56 +44,87 @@
         <a class="nav-link" href="/logout" style="color:white; font-weight: bold; font-family: 'Meiryo UI'; font-size: 25px;">Logout</a>
     </div>
 </div>
-<div style="position: absolute; top:80px; left:0px; z-index: -100;">
+<div style="position: absolute; top:80px; left:20px; right:20px; z-index: -100;">
 
-<div id="app" class="m-3">
-    <mycomp/>
-</div>
-
-{% raw %}
-<script type='text/x-template' id='mycomp-template'>
     <div>
-        <a v-bind:href="random"><button type="button" class="btn btn-lg btn-warning font-weight-bold mt-3 mb-3 text-black"><h4 style='font-weight:bold; margin:2px;'>最新の状態に更新する(ブラウザのリフレッシュでも同じ)</h4></button></a><br>
-        <template v-if="choice=='1'">
+        <a href={{url1}}><button type="button" class="btn btn-lg btn-warning font-weight-bold mt-3 mb-3 text-black"><h4 style='font-weight:bold; margin:2px;'>最新の状態に更新する(ブラウザのリフレッシュでも同じ)</h4></button></a><br>
+            {% if choice=='1' %}
             <button type="button" class="btn btn-lg btn-danger font-weight-bold mb-3 disabled"><h4 style='font-weight:bold; margin:2px;'>授業をスタートする(全員のリアクションを「休み」にする)</h4></button>
-            <a v-bind:href="random+'/finishclass'"><button type="button" class="btn btn-lg btn-danger font-weight-bold mb-3"><h4 style='font-weight:bold; margin:2px;'>授業を終了する(リアクションの登録を不可にする)</h4></button></a>
-            <a v-bind:href="random+'/startvote'"><button type="button" class="btn btn-lg btn-success font-weight-bold mb-4"><h4 style='font-weight:bold; margin:2px;'>発言を募集する(休んでいない人のリアクションを「未投票」にする)</h4></button></a>
+            <a href="{{url1}}/finishclass"><button type="button" class="btn btn-lg btn-danger font-weight-bold mb-3"><h4 style='font-weight:bold; margin:2px;'>授業を終了する(リアクションの登録を不可にする)</h4></button></a>
+            <a href="{{url1}}/startvote"><button type="button" class="btn btn-lg btn-success font-weight-bold mb-4"><h4 style='font-weight:bold; margin:2px;'>発言を募集する(休んでいない人のリアクションを「未投票」にする)</h4></button></a>
             <button type="button" class="btn btn-lg btn-success font-weight-bold mb-4 disabled"><h4 style='font-weight:bold; margin:2px;'>発言の募集を終了する(ptの加算)</h4></button>
-        </template>
-        <template v-else-if="choice=='2'">
+            {% elif choice=='2' %}
             <button type="button" class="btn btn-lg btn-danger font-weight-bold mb-3 disabled"><h4 style='font-weight:bold; margin:2px;'>授業をスタートする(全員のリアクションを「休み」にする)</h4></button>
             <button type="button" class="btn btn-lg btn-danger font-weight-bold mb-3 disabled"><h4 style='font-weight:bold; margin:2px;'>授業を終了する(リアクションの登録を不可にする)</h4></button>
             <button type="button" class="btn btn-lg btn-success font-weight-bold mb-4 disabled"><h4 style='font-weight:bold; margin:2px;'>発言を募集する(休んでいない人のリアクションを「未投票」にする)</h4></button>
-            <a v-bind:href="random+'/finishvote'"><button type="button" class="btn btn-lg btn-success font-weight-bold mb-4"><h4 style='font-weight:bold; margin:2px;'>発言の募集を終了する(ptの加算)</h4></button></a>
-        </template>
-        <template v-else>
-            <a v-bind:href="random+'/startclass'"><button type="button" class="btn btn-lg btn-danger mb-3"><h4 style='font-weight:bold; margin:2px;'>授業をスタートする(全員のリアクションを「休み」にする)</h4></button></a>
+            <a href="{{url1}}/finishvote"><button type="button" class="btn btn-lg btn-success font-weight-bold mb-4"><h4 style='font-weight:bold; margin:2px;'>発言の募集を終了する(ptの加算)</h4></button></a>
+            {% else %}
+            <a href="{{url1}}/startclass"><button type="button" class="btn btn-lg btn-danger mb-3"><h4 style='font-weight:bold; margin:2px;'>授業をスタートする(全員のリアクションを「休み」にする)</h4></button></a>
             <button type="button" class="btn btn-lg btn-danger font-weight-bold mb-3 disabled"><h4 style='font-weight:bold; margin:2px;'>授業を終了する(リアクションの登録を不可にする)</h4></button>
             <button type="button" class="btn btn-lg btn-success font-weight-bold mb-4 disabled"><h4 style='font-weight:bold; margin:2px;'>発言を募集する(休んでいない人のリアクションを「未投票」にする)</h4></button>
             <button type="button" class="btn btn-lg btn-success font-weight-bold mb-4 disabled"><h4 style='font-weight:bold; margin:2px;'>発言の募集を終了する(ptの加算)</h4></button>
-        </template>
+            {% endif %}
         <div class="card">
             <div class="card-header bg-primary text-white font-weight-bold h5" style='height:50px;'><h4 style='font-weight:bold; margin:2px;'>
-              発言したい!!!<a v-bind:href="random+'/random1'"><button type="button" class="btn btn-light font-weight-bold" style='position: absolute; top:5px; right:10px;'><h5 style='font-weight:bold; margin:2px;'>ランダムに並び替え</h5></button></a>
+              発言したい!!!<a href="{{url1}}/random1"><button type="button" class="btn btn-light font-weight-bold" style='position: absolute; top:5px; right:10px;'><h5 style='font-weight:bold; margin:2px;'>ランダムに並び替え</h5></button></a>
             </h4></div>
             <div class="card-body" style='background-color:#deedff;' id='status1'>
-                <p v-html="status_1" class='m-0 p-0'></p>
+              {% for row1 in status1 %}
+              <div class="row">
+                {% for col1 in row1 %}
+                <button id="startmodal" data-bs-whatever={{col1[1]}}>
+                <div class="col-lg-3 col-md-4 col-sm-6 mt-3">
+                  <div class="box" id="makeImg" style="width:fit-content; height:40px; background:#e2e2e2; border: 2px solid #000000; border-radius: 20px 20px 20px 20px; font-family:Meiryo UI;">
+                    <p style="margin-top:5px; margin-left:10px; margin-right: 10px; font-weight: bold;">
+                      {{col1[1]}}  <span class="badge bg-secondary text-light">{{col1[3]}}pt</span>  <a href={{col1[6]}}><button style="width:fit-content; height:19px; font-size:12px; font-weight:bold; color:white; border: 0px; margin:auto; background-color: #6c757d; border-radius: 5px 5px 5px 5px;">{{col1[4]}}回</button></a>
+                    </p>
+                  </div>
+                </div>
+                </button>
+                {% endfor %}
+              </div>
+              {% endfor %}
             </div>
         </div>
         <div class="card">
-            <div class="card-header bg-success text-white font-weight-bold h5" style='height:50px;'><h4 style='font-weight:bold; margin:2px;'>
-              当てられてもOK<a v-bind:href="random+'/random2'"><button type="button" class="btn btn-light font-weight-bold" style='position: absolute; top:5px; right:10px;'><h5 style='font-weight:bold; margin:2px;'>ランダムに並び替え</h5></button></a>
-            </h4></div>
-            <div class="card-body" style='background-color:#e7fde9;'>
-                <p v-html="status_2" class='m-0 p-0'></p>
+          <div class="card-header bg-success text-white font-weight-bold h5" style='height:50px;'><h4 style='font-weight:bold; margin:2px;'>
+            当てられてもOK<a href="{{url1}}/random2"><button type="button" class="btn btn-light font-weight-bold" style='position: absolute; top:5px; right:10px;'><h5 style='font-weight:bold; margin:2px;'>ランダムに並び替え</h5></button></a>
+          </h4></div>
+          <div class="card-body" style='background-color:#e7fde9;'>
+            {% for row2 in status2 %}
+            <div class="row">
+              {% for col2 in row2 %}
+              <button id="startmodal" data-bs-whatever={{col2[1]}}>
+              <div class="col-lg-3 col-md-4 col-sm-6 mt-3">
+                <div class="box" id="makeImg" style="width:fit-content; height:40px; background:#e2e2e2; border: 2px solid #000000; border-radius: 20px 20px 20px 20px; font-family:Meiryo UI;">
+                  <p style="margin-top:5px; margin-left:10px; margin-right: 10px; font-weight: bold;">
+                    {{col2[1]}}  <span class="badge bg-secondary text-light">{{col2[3]}}pt</span>  <a href={{col2[6]}}><button style="width:fit-content; height:19px; font-size:12px; font-weight:bold; color:white; border: 0px; margin:auto; background-color: #6c757d; border-radius: 5px 5px 5px 5px;">{{col2[4]}}回</button></a>
+                  </p>
+                </div>
+              </div></button>
+              {% endfor %}
             </div>
+            {% endfor %}
         </div>
         <div class="card">
             <div class="card-header bg-danger text-white font-weight-bold h5" style='height:50px;'><h4 style='font-weight:bold; margin:2px;'>
               分からない...
             </h4></div>
             <div class="card-body" style='background-color:#fde7e7;'>
-                <p v-html="status_3" class='m-0 p-0'></p>
+              {% for row3 in status3 %}
+              <div class="row">
+                {% for col3 in row3 %}
+                <button id="startmodal" data-bs-whatever={{col3[1]}}>
+                <div class="col-lg-3 col-md-4 col-sm-6 mt-3">
+                  <div class="box" id="makeImg" style="width:fit-content; height:40px; background:#e2e2e2; border: 2px solid #000000; border-radius: 20px 20px 20px 20px; font-family:Meiryo UI;">
+                    <p style="margin-top:5px; margin-left:10px; margin-right: 10px; font-weight: bold;">
+                      {{col3[1]}}  <span class="badge bg-secondary text-light">{{col3[3]}}pt</span>  <a href={{col3[6]}}><button style="width:fit-content; height:19px; font-size:12px; font-weight:bold; color:white; border: 0px; margin:auto; background-color: #6c757d; border-radius: 5px 5px 5px 5px;">{{col3[4]}}回</button></a>
+                    </p>
+                  </div>
+                </div></button>
+                {% endfor %}
+              </div>
+              {% endfor %}
             </div>
         </div>
         <div class="card">
@@ -101,7 +132,20 @@
               眠いzzz
             </h4></div>
             <div class="card-body" style='background-color:#fafde7;'>
-                <p v-html="status_4" class='m-0 p-0'></p>
+              {% for row4 in status4 %}
+              <div class="row">
+                {% for col4 in row4 %}
+                <button id="startmodal" data-bs-whatever={{col4[1]}}>
+                <div class="col-lg-3 col-md-4 col-sm-6 mt-3">
+                  <div class="box" id="makeImg" style="width:fit-content; height:40px; background:#e2e2e2; border: 2px solid #000000; border-radius: 20px 20px 20px 20px; font-family:Meiryo UI;">
+                    <p style="margin-top:5px; margin-left:10px; margin-right: 10px; font-weight: bold;">
+                      {{col4[1]}}  <span class="badge bg-secondary text-light">{{col4[3]}}pt</span>  <a href={{col4[6]}}><button style="width:fit-content; height:19px; font-size:12px; font-weight:bold; color:white; border: 0px; margin:auto; background-color: #6c757d; border-radius: 5px 5px 5px 5px;">{{col4[4]}}回</button></a>
+                    </p>
+                  </div>
+                </div></button>
+                {% endfor %}
+              </div>
+              {% endfor %}
             </div>
         </div>
         <div class="card">
@@ -109,7 +153,20 @@
                 未投票(授業を聞いていないかもしれない)
             </h4></div>
             <div class="card-body">
-                <p v-html="status_5" class='m-0 p-0'></p>
+              {% for row5 in status5 %}
+              <div class="row">
+                {% for col5 in row5 %}
+                <button id="startmodal" data-bs-whatever={{col5[1]}}>
+                <div class="col-lg-3 col-md-4 col-sm-6 mt-3">
+                  <div class="box" id="makeImg" style="width:fit-content; height:40px; background:#e2e2e2; border: 2px solid #000000; border-radius: 20px 20px 20px 20px; font-family:Meiryo UI;">
+                    <p style="margin-top:5px; margin-left:10px; margin-right: 10px; font-weight: bold;">
+                      {{col5[1]}}  <span class="badge bg-secondary text-light">{{col5[3]}}pt</span>  <a href={{col5[6]}}><button style="width:fit-content; height:19px; font-size:12px; font-weight:bold; color:white; border: 0px; margin:auto; background-color: #6c757d; border-radius: 5px 5px 5px 5px;">{{col5[4]}}回</button></a>
+                    </p>
+                  </div>
+                </div></button>
+                {% endfor %}
+              </div>
+              {% endfor %}
             </div>
         </div>
         <div class="card">
@@ -117,30 +174,84 @@
                 休み(このサイトにログインしていない)
             </h4></div>
             <div class="card-body">
-                <p v-html="status_0" class='m-0 p-0'></p>
+              {% for row0 in status0 %}
+              <div class="row">
+                {% for col0 in row0 %}  
+                <div class="col-lg-3 col-md-4 col-sm-6 mt-3">
+                  <button class="box" id="startmodal" data-bs-whatever={{col0[1]}} style="width:fit-content; height:40px; background:#e2e2e2; border: 2px solid #000000; border-radius: 20px 20px 20px 20px; font-family:Meiryo UI;" autofocus>
+                    <p style="margin-top:5px; margin-left:10px; margin-right: 10px; font-weight: bold;">
+                      {{col0[1]}}  <span class="badge bg-secondary text-light">{{col0[3]}}pt</span>  <span class="badge bg-secondary text-light">{{col0[4]}}回</span>
+                    </p>
+                  </button>
+                </div>
+                {% endfor %}
+              </div>
+              {% endfor %}
             </div>
         </div>
     </div>
-</script>
-{% endraw %}
-<script>
-    Vue.component('mycomp',{
-        template:'#mycomp-template',
-        data:function(){
-            return{
-                status_1:{{status1|tojson}},
-                status_2:{{status2|tojson}},
-                status_3:{{status3|tojson}},
-                status_4:{{status4|tojson}},
-                status_5:{{status5|tojson}},
-                status_0:{{status0|tojson}},
-                random:location.href,
-                choice:{{choice|tojson}}
-            }
-        }});
-    new Vue({
-        el:'#app',
-        });
-</script>
+
 </div>
+{% if warning %}
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" hidden=true>
+  Launch demo modal
+</button>
+{% endif %}
+</div>
+
+{% if warning %}
+<div class="modal fade" tabindex="-1" id="exampleModal">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" style="font-weight:bold; font-size: 25px;"><span class="badge bg-danger">Warning</span></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p style="font-weight:bold; font-size: 17px;">誰も授業の内容を理解できていません。もう一度説明してください。</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
+<div class="modal fade" tabindex="-1" id="newModal">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-primary">
+        <h5 class="modal-title" style="font-weight:bold; font-size: 25px;"><span class="badge bg-danger">Warning</span></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p style="font-weight:bold; font-size: 17px;">誰も授業の内容を理解できていません。もう一度説明してください。</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script>
+{% if warning %}
+  $(window).on('load',function(){
+    $('#exampleModal').modal('show');
+});
+{% endif %}
+
+$('button.box').each(function(){
+  $(this).mouseover(function(){
+  $(this).attr('style',"width:fit-content; height:40px; background:rgb(101, 98, 106); border: 2px solid #000000; border-radius: 20px 20px 20px 20px; font-family:Meiryo UI;")
+})
+  $(this).mouseout(function(){
+  $(this).attr('style',"width:fit-content; height:40px; background:#e2e2e2; border: 2px solid #000000; border-radius: 20px 20px 20px 20px; font-family:Meiryo UI;")
+})
+  $(this).click(function(){
+  $('#newModal').modal('show');
+})})
+</script>
 {% endblock %}

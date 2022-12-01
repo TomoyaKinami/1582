@@ -384,11 +384,10 @@ def hello_world(class_name):
                     if 'warning' in session and session['warning']:
                         warning=True
                         session.pop('warning')
-                    return render_template('class_teacher.html',\
+                    return render_template('class_teacher2.html',\
                         title='class',\
                             message=msg,\
                                 msg2=msg2,\
-                                    warning=warning,\
                                             status1=status1,\
                                                 status2=status2,\
                                                     status3=status3,\

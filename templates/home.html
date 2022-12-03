@@ -10,7 +10,7 @@ Index
 <div style="background-color:rgb(111, 0, 255); position: fixed; top:0px; left:0px; width:100%; z-index: 100;">
     <nav class="navbar navbar-expand-lg text-white">
         <div class="container-fluid">
-            <a class="navbar-brand" href="" style="color:white; font-weight: bold; font-family: 'Meiryo UI'; font-size: 30px;">{{message}}</a>
+            <a class="navbar-brand" href="" style="color:white; font-weight: bold; font-family: 'Meiryo UI'; font-size: 25px;">{{message}}</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -36,7 +36,7 @@ Index
             </div>
         </div>
     </nav>
-    <div style="position:absolute; top:15px; right:80px;">
+    <div style="position:absolute; top:13px; right:80px;">
         <a class="nav-link" href="/logout" style="color:white; font-weight: bold; font-family: 'Meiryo UI'; font-size: 25px;">Logout</a>
     </div>
 </div>
@@ -46,13 +46,29 @@ Index
     </h2>
     <div>
         {% for part in msg2 %}
-        <div class="card bg-light mb-2" style="width:100%; border-left-width: 10px; border-left-color:{{part[7]}}">
+        <div class="card bg-light mb-2" style="width:100%; border-left-width: 10px; border-left-color:{{part[8]}}">
                 <div class="card-body">
                     <h5 class="card-title" style="font-weight:bold;">{{part[1]}}</h5>
-                    <p class="card-text">担当教員:{{part[2]}}   教室:{{part[3]}}  <a href={{part[4]}}><button class="btn btn-primary btn-lg text-right" style="position: absolute; right:20px; bottom:20px; font-weight: bold;">参加</button></a></p>   
+                    <p class="card-text">担当教員:{{part[2]}}   教室:{{part[3]}}  {% if part[7]==None %}<a href={{part[4]}}><img src="/static/参加.png" style="position:absolute; right:10px; bottom:10px;" height="70px">{% else %}<a href={{part[4]}} class="join"><img src="/static/矢印.png" style="position:absolute; right:100px; bottom:10px;" height="70px" class="join"></a><a href={{part[4]}}><img src="/static/{{part[7]}}" style="position: absolute; right:10px; bottom:10px;" height="70px">{% endif %}</a></p>   
                 </div>
         </div>
         {% endfor %}
     </div>
 </div>
+{% endblock %}
+
+{% block script %}
+<script>
+    var windowSm=640;
+    $(window).on('load resize',function(){
+        var windowWidth=$(window).width();
+        if(windowWidth <= windowSm){
+            $('h5.card-title').attr('style','font-weight:bold; font-size:16px;')
+            $('img.join').remove();}else{
+                $('h5.card-title').attr('style','font-weight:bold;')
+                $('a.join').each(function(){
+                    $(this).append('<img src="/static/矢印.png" style="position:absolute; right:100px; bottom:10px;" height="70px" class="join">')
+            });
+            }});
+</script>
 {% endblock %}

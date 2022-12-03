@@ -384,10 +384,11 @@ def hello_world(class_name):
                     if 'warning' in session and session['warning']:
                         warning=True
                         session.pop('warning')
-                    return render_template('class_teacher2.html',\
+                    return render_template('class_teacher.html',\
                         title='class',\
                             message=msg,\
                                 msg2=msg2,\
+                                    warning=warning,\
                                             status1=status1,\
                                                 status2=status2,\
                                                     status3=status3,\
@@ -614,14 +615,14 @@ def finishvote(class_name):
                                     if list0[i][2]=='2':
                                         list2.append(list0[i])
                                 for i in range(0,len(list1)):
-                                    original=float(list1[i][3])
-                                    new=original+1.0
+                                    original=int(list1[i][3])
+                                    new=original+2
                                     list1[i][3]=str(new)
                                     original2=list1[i][0]
                                     list1[i][0]=str(original2)
                                 for i in range(0,len(list2)):
-                                    original=float(list2[i][3])
-                                    new=original+0.5
+                                    original=int(list2[i][3])
+                                    new=original+1
                                     list2[i][3]=str(new)
                                     original2=list2[i][0]
                                     list2[i][0]=str(original2)
@@ -649,42 +650,6 @@ def finishvote(class_name):
     else:
         return redirect('/')
     
-
-@app.route('/class/<class_name>/<number>',methods=['GET'])
-def tell(class_name,number):
-    url_list=[]
-    if session['login']==True:
-        if 'license' in session:
-            if session['license']==True:
-                class_list=get_db('number.sqlite3','classes')
-                for i in range(0,len(class_list)):
-                    url_list.append(class_list[i][4])
-                if class_name in url_list:
-                    status_list=get_db('number.sqlite3',class_name)
-                    list1=[]
-                    list1.append(number)
-                    for i in range(0,len(status_list)):
-                        if status_list[i][0]==int(number):
-                            original=int(status_list[i][4])
-                            new=original+1
-                            list1.append(str(new))
-                            break
-                    conn = sqlite3.connect('number.sqlite3')
-                    cur = conn.cursor()
-                    cur.execute('UPDATE '+class_name+' SET tell="'+list1[1]+'" WHERE id='+list1[0])
-                    conn.commit()
-                    cur.close()
-                    conn.close()
-                    return redirect('/class/'+class_name)
-                else:
-                    return redirect('/')             
-            else:
-                return redirect('/')
-        else:
-            return redirect('/')
-    else:
-        return redirect('/')
-
 @app.route('/class/<class_name>/finishclass',methods=['GET'])
 def finishclass(class_name):
     url_list=[]
@@ -722,6 +687,44 @@ def finishclass(class_name):
             return redirect('/')
     else:
         return redirect('/')
+
+@app.route('/class/<class_name>/register',methods=['POST'])
+def register(class_name):
+    url_list=[]
+    if session['login']==True:
+        if 'license' in session:
+            if session['license']==True:
+                class_list=get_db('number.sqlite3','classes')
+                for i in range(0,len(class_list)):
+                    url_list.append(class_list[i][4])
+                if class_name in url_list:
+                    id=request.form.get('id')
+                    point=request.form.get('point')
+                    tell=request.form.get('tell')
+                    status_list=get_db('number.sqlite3',class_name)
+                    list1=[]
+                    list1.append(id)
+                    for i in range(0,len(status_list)):
+                        if status_list[i][1]==id:
+                            list1.append(point)
+                            list1.append(tell)
+                            break
+                    conn = sqlite3.connect('number.sqlite3')
+                    cur = conn.cursor()
+                    cur.execute('UPDATE '+class_name+' SET tell="'+list1[2]+'" WHERE name='+list1[0])
+                    cur.execute('UPDATE '+class_name+' SET point="'+list1[1]+'" WHERE name='+list1[0])
+                    conn.commit()
+                    cur.close()
+                    conn.close()
+                    return '/class/'+class_name
+                else:
+                    return '/'             
+            else:
+                return '/'
+        else:
+            return '/'
+    else:
+        return '/'
 
 if __name__=='__main__':
     app.debug=False

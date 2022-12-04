@@ -75,7 +75,10 @@ def error_500(e):
 @app.route('/',methods=['GET'])
 def index():
     if 'login' in session and session['login']:
-        msg=session['id']+'さん'
+        if 'license' in session and session['license']:
+            msg=session['id']+'先生'
+        else:
+            msg=session['id']+'さん' 
         class_list=get_db('number.sqlite3','classes')
         msg2=[]
         for i in range(0,len(class_list)):
@@ -135,7 +138,10 @@ def login_post():
 @app.route('/setting',methods=['GET'])
 def setting():
     if 'login' in session and session['login']:
-        msg=session['id']+'さん'
+        if 'license' in session and session['license']:
+            msg=session['id']+'先生'
+        else:
+            msg=session['id']+'さん' 
         class_list=get_db('number.sqlite3','classes')
         msg2=[]
         msg3='パスワードの変更'
@@ -186,7 +192,10 @@ def accountchange():
                 msg3='パスワードの変更'
                 err='1'
                 pass
-            msg=session['id']+'さん' 
+            if 'license' in session and session['license']:
+                msg=session['id']+'先生'
+            else:
+                msg=session['id']+'さん' 
             class_list=get_db('number.sqlite3','classes')
             msg2=[]
             for i in range(0,len(class_list)):

@@ -17,7 +17,7 @@ Index
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link" href="/" aria-current="page" style="color:white; font-weight: bold; font-family: 'Meiryo UI'; font-size: 25px;">Home</a>
+                        <a class="nav-link" href="/" id="nav2" aria-current="page" style="color:white; font-weight: bold; font-family: 'Meiryo UI'; font-size: 25px;">Home</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link disabled" style="color:white; font-weight: bold; font-family: 'Meiryo UI'; font-size: 25px; opacity: .5;">Setting</a>
@@ -42,7 +42,7 @@ Index
 </div>
 <div style="position: absolute; top:80px; left:20px; right:20px; z-index: -100;">
     <h2 class='p-3 h5 text-center' style="font-weight: bold; font-size: 25px;">
-        参加したい授業を選択してください!!!
+        ここでは、いろいろカスタマイズできます。
     </h2>
     
 
@@ -88,4 +88,21 @@ Index
     </div>
 </div>
 </div>
+{% endblock %}
+
+{% block script %}
+<script>
+$('#nav2').mouseover(function(){
+  $('#nav2').attr("style","color:rgb(101,98,106); font-weight: bold; font-family: 'Meiryo UI'; font-size: 25px;")
+})
+$('#nav2').mouseout(function(){
+  $('#nav2').attr("style","color:white; font-weight: bold; font-family: 'Meiryo UI'; font-size: 25px;")
+});
+$('#navbarDropdown').mouseover(function(){
+  $(this).attr("style","color:rgb(101,98,106); font-weight: bold; font-family: 'Meiryo UI'; font-size: 25px;")
+})
+$('#navbarDropdown').mouseout(function(){
+  $(this).attr("style","color:white; font-weight: bold; font-family: 'Meiryo UI'; font-size: 25px;")
+});
+</script>
 {% endblock %}

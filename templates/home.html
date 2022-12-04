@@ -20,7 +20,7 @@ Index
                         <a class="nav-link disabled" aria-current="page" style="color:white; font-weight: bold; font-family: 'Meiryo UI'; font-size: 25px; opacity: .5;">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/setting" style="color:white; font-weight: bold; font-family: 'Meiryo UI'; font-size: 25px;">Setting</a>
+                        <a class="nav-link" href="/setting" id="nav2" style="color:white; font-weight: bold; font-family: 'Meiryo UI'; font-size: 25px;">Setting</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color:white; font-weight: bold; font-family: 'Meiryo UI'; font-size: 25px;">
@@ -49,7 +49,7 @@ Index
         <div class="card bg-light mb-2" style="width:100%; border-left-width: 10px; border-left-color:{{part[8]}}">
                 <div class="card-body">
                     <h5 class="card-title" style="font-weight:bold;">{{part[1]}}</h5>
-                    <p class="card-text">担当教員:{{part[2]}}   教室:{{part[3]}}  {% if part[7]==None %}<a href={{part[4]}}><img src="/static/参加.png" style="position:absolute; right:10px; bottom:10px;" height="70px">{% else %}<a href={{part[4]}} class="join"><img src="/static/矢印.png" style="position:absolute; right:100px; bottom:10px;" height="70px" class="join"></a><a href={{part[4]}}><img src="/static/{{part[7]}}" style="position: absolute; right:10px; bottom:10px;" height="70px">{% endif %}</a></p>   
+                    <p class="card-text">担当教員:{{part[2]}}   教室:{{part[3]}}  {% if part[7]==None %}<a href={{part[4]}}><img src="/static/参加.png" alt="参加" style="position:absolute; right:10px; bottom:10px;" height="70px">{% else %}<a href={{part[4]}} class="join"><img src="/static/矢印.png" alt="参加" style="position:absolute; right:100px; bottom:10px;" height="70px" class="join"></a><a href={{part[4]}}><img src="/static/{{part[7]}}" alt="参加" style="position: absolute; right:10px; bottom:10px;" height="70px">{% endif %}</a></p>   
                 </div>
         </div>
         {% endfor %}
@@ -70,5 +70,17 @@ Index
                     $(this).append('<img src="/static/矢印.png" style="position:absolute; right:100px; bottom:10px;" height="70px" class="join">')
             });
             }});
+$('#nav2').mouseover(function(){
+  $('#nav2').attr("style","color:rgb(101,98,106); font-weight: bold; font-family: 'Meiryo UI'; font-size: 25px;")
+})
+$('#nav2').mouseout(function(){
+  $('#nav2').attr("style","color:white; font-weight: bold; font-family: 'Meiryo UI'; font-size: 25px;")
+});
+$('#navbarDropdown').mouseover(function(){
+  $(this).attr("style","color:rgb(101,98,106); font-weight: bold; font-family: 'Meiryo UI'; font-size: 25px;")
+})
+$('#navbarDropdown').mouseout(function(){
+  $(this).attr("style","color:white; font-weight: bold; font-family: 'Meiryo UI'; font-size: 25px;")
+});
 </script>
 {% endblock %}

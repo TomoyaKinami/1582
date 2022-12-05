@@ -40,7 +40,7 @@ Login
         </div>
     </div>
     <div style="position: absolute; top:80px; left:7px; right: 7px; z-index: -100;">
-      <img src="static/IDM.png" style="margin-left:auto; margin-right:auto; width: 729px ; display: block;">
+      <img src="static/IDM.png" style="margin-left:auto; margin-right:auto; width: 729px ; display: block;" id="IDM">
 {% if err %}
 <p class="alert alert-info m-3">
 {% else %}
@@ -77,6 +77,18 @@ Login
     </div>
 </div>
 </div>
+{% endblock %}
+
+{% block script %}
+<script>
+ var windowSm=640;
+    $(window).on('load resize',function(){
+        var windowWidth=$(window).width();
+        if(windowWidth <= windowSm){
+            $('#IDM').attr('style',"margin-left:auto; margin-right:auto; width: "+String(windowWidth)+"px ; display: block;")}
+            else{$('#IDM').attr('style',"margin-left:auto; margin-right:auto; width: 729px ; display: block;")
+            }});
+</script>
 {% endblock %}
 
 {% block footer %}

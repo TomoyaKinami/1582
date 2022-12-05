@@ -49,24 +49,24 @@
     <div>
         <a href={{url1}}><button type="button" class="btn btn-lg btn-warning font-weight-bold mt-3 mb-3 text-black"><h4 style='font-weight:bold; margin:2px;'>最新の状態に更新する(ブラウザのリフレッシュでも同じ)</h4></button></a><br>
             {% if choice=='1' %}
-            <button type="button" class="btn btn-lg btn-danger font-weight-bold mb-3 disabled"><h4 style='font-weight:bold; margin:2px;'>授業をスタートする(全員のリアクションを「休み」にする)</h4></button>
+            <button type="button" class="btn btn-lg btn-danger font-weight-bold mb-3 disabled"><h4 style='font-weight:bold; margin:2px; padding-right: 3px;'>授業を開始する(生徒全員のリアクションを「休み」に変更する)</h4></button>
             <a href="{{url1}}/finishclass"><button type="button" class="btn btn-lg btn-danger font-weight-bold mb-3"><h4 style='font-weight:bold; margin:2px;'>授業を終了する(リアクションの登録を不可にする)</h4></button></a>
-            <a href="{{url1}}/startvote"><button type="button" class="btn btn-lg btn-success font-weight-bold mb-4"><h4 style='font-weight:bold; margin:2px;'>発言を募集する(休んでいない人のリアクションを「未投票」にする)</h4></button></a>
+            <a href="{{url1}}/startvote"><button type="button" class="btn btn-lg btn-success font-weight-bold mb-4"><h4 style='font-weight:bold; margin:2px;'>発言を募集する(出席者全員のリアクションを「未投票」にする)</h4></button></a>
             <button type="button" class="btn btn-lg btn-success font-weight-bold mb-4 disabled"><h4 style='font-weight:bold; margin:2px;'>発言の募集を終了する(ptの加算)</h4></button>
             {% elif choice=='2' %}
-            <button type="button" class="btn btn-lg btn-danger font-weight-bold mb-3 disabled"><h4 style='font-weight:bold; margin:2px;'>授業をスタートする(全員のリアクションを「休み」にする)</h4></button>
+            <button type="button" class="btn btn-lg btn-danger font-weight-bold mb-3 disabled"><h4 style='font-weight:bold; margin:2px; padding-right: 3px;'>授業を開始する(生徒全員のリアクションを「休み」に変更する)</h4></button>
             <button type="button" class="btn btn-lg btn-danger font-weight-bold mb-3 disabled"><h4 style='font-weight:bold; margin:2px;'>授業を終了する(リアクションの登録を不可にする)</h4></button>
-            <button type="button" class="btn btn-lg btn-success font-weight-bold mb-4 disabled"><h4 style='font-weight:bold; margin:2px;'>発言を募集する(休んでいない人のリアクションを「未投票」にする)</h4></button>
+            <button type="button" class="btn btn-lg btn-success font-weight-bold mb-4 disabled"><h4 style='font-weight:bold; margin:2px;'>発言を募集する(出席者全員のリアクションを「未投票」にする)</h4></button>
             <a href="{{url1}}/finishvote"><button type="button" class="btn btn-lg btn-success font-weight-bold mb-4"><h4 style='font-weight:bold; margin:2px;'>発言の募集を終了する(ptの加算)</h4></button></a>
             {% else %}
-            <a href="{{url1}}/startclass"><button type="button" class="btn btn-lg btn-danger mb-3"><h4 style='font-weight:bold; margin:2px;'>授業をスタートする(全員のリアクションを「休み」にする)</h4></button></a>
+            <a href="{{url1}}/startclass"><button type="button" class="btn btn-lg btn-danger mb-3"><h4 style='font-weight:bold; margin:2px; padding-right: 3px;'>授業を開始する(生徒全員のリアクションを「休み」に変更する)</h4></button></a>
             <button type="button" class="btn btn-lg btn-danger font-weight-bold mb-3 disabled"><h4 style='font-weight:bold; margin:2px;'>授業を終了する(リアクションの登録を不可にする)</h4></button>
-            <button type="button" class="btn btn-lg btn-success font-weight-bold mb-4 disabled"><h4 style='font-weight:bold; margin:2px;'>発言を募集する(休んでいない人のリアクションを「未投票」にする)</h4></button>
+            <button type="button" class="btn btn-lg btn-success font-weight-bold mb-4 disabled"><h4 style='font-weight:bold; margin:2px;'>発言を募集する(出席者全員のリアクションを「未投票」にする)</h4></button>
             <button type="button" class="btn btn-lg btn-success font-weight-bold mb-4 disabled"><h4 style='font-weight:bold; margin:2px;'>発言の募集を終了する(ptの加算)</h4></button>
             {% endif %}
         <div class="card">
             <div class="card-header bg-primary text-white font-weight-bold h5" style='height:50px;'><h4 style='font-weight:bold; margin:2px;'>
-              発言したい!!!<a href="{{url1}}/random1"><button type="button" class="btn btn-light font-weight-bold" style='position: absolute; top:5px; right:10px;'><h5 style='font-weight:bold; margin:2px;'>ランダムに並び替え</h5></button></a>
+              発言したい!!!<a href="{{url1}}/random1"><button type="button" class="btn btn-light font-weight-bold" style='position: absolute; top:5px; right:10px;'><h5 style='font-weight:bold; margin:2px;' id="daizu4">ランダムに並び替え</h5></button></a>
             </h4></div>
             <div class="card-body" style='background-color:#deedff;' id='status1'>
               {% for row1 in status1 %}
@@ -87,7 +87,7 @@
         </div>
         <div class="card">
           <div class="card-header bg-success text-white font-weight-bold h5" style='height:50px;'><h4 style='font-weight:bold; margin:2px;'>
-            当てられてもOK<a href="{{url1}}/random2"><button type="button" class="btn btn-light font-weight-bold" style='position: absolute; top:5px; right:10px;'><h5 style='font-weight:bold; margin:2px;'>ランダムに並び替え</h5></button></a>
+            当てられてもOK<a href="{{url1}}/random2"><button type="button" class="btn btn-light font-weight-bold" style='position: absolute; top:5px; right:10px;'><h5 style='font-weight:bold; margin:2px;' id="daizu3">ランダムに並び替え</h5></button></a>
           </h4></div>
           <div class="card-body" style='background-color:#e7fde9;'>
             {% for row2 in status2 %}
@@ -105,7 +105,7 @@
             {% endfor %}
         </div>
         <div class="card">
-            <div class="card-header bg-danger text-white font-weight-bold h5" style='height:50px;'><h4 style='font-weight:bold; margin:2px;'>
+            <div class="card-header bg-danger text-white font-weight-bold h5" style='height:fit-content;'><h4 style='font-weight:bold; margin:2px;'>
               分からない...
             </h4></div>
             <div class="card-body" style='background-color:#fde7e7;'>
@@ -125,7 +125,7 @@
             </div>
         </div>
         <div class="card">
-            <div class="card-header bg-warning text-black font-weight-bold h5" style='height:50px;'><h4 style='font-weight:bold; margin:2px;'>
+            <div class="card-header bg-warning text-black font-weight-bold h5" style='height:fit-content;'><h4 style='font-weight:bold; margin:2px;'>
               眠いzzz
             </h4></div>
             <div class="card-body" style='background-color:#fafde7;'>
@@ -145,7 +145,7 @@
             </div>
         </div>
         <div class="card">
-            <div class="card-header bg-secondary text-white font-weight-bold h5" style='height:50px;'><h4 style='font-weight:bold; margin:2px;'>
+            <div class="card-header bg-secondary text-white font-weight-bold h5" style='height:fit-content;'><h4 style='font-weight:bold; margin:2px;'>
                 未投票(授業を聞いていないかもしれない)
             </h4></div>
             <div class="card-body">
@@ -164,7 +164,7 @@
             </div>
         </div>
         <div class="card">
-            <div class="card-header bg-dark text-white font-weight-bold h5" style='height:50px;'><h4 style='font-weight:bold; margin:2px;'>
+            <div class="card-header bg-dark text-white font-weight-bold h5" style='height:fit-content;'><h4 style='font-weight:bold; margin:2px;'>
                 休み(このサイトにログインしていない)
             </h4></div>
             <div class="card-body">
@@ -315,5 +315,14 @@ $('#send').on({'click':function(){
     error:function(request,status,err){
       console.log('送信失敗');}});
 }})
+var windowSm=640;
+    $(window).on('load resize',function(){
+        var windowWidth=$(window).width();
+        if(windowWidth <= windowSm){
+            $('#daizu3').attr('style','font-weight:bold; font-size:16px; margin:2px;')
+            $('#daizu4').attr('style','font-weight:bold; font-size:16px; margin:2px;')}
+            else{$('#daizu3').attr('style','font-weight:bold; margin:2px;')
+            $('#daizu4').attr('style','font-weight:bold; margin:2px;')}
+            });
 </script>
 {% endblock %}

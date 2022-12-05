@@ -41,7 +41,7 @@ Index
     </div>
 </div>
 <div style="position: absolute; top:80px; left:20px; right:20px; z-index: -100;">
-    <h2 class='p-3 h5 text-center' style="font-weight: bold; font-size: 25px;">
+    <h2 class='h5 text-center' style="font-weight: bold; font-size: 25px; margin-top: 16px; margin-bottom:30px;" id="daizu">
         参加したい授業を選択してください!!!
     </h2>
     <div>
@@ -64,8 +64,14 @@ Index
         var windowWidth=$(window).width();
         if(windowWidth <= windowSm){
             $('h5.card-title').attr('style','font-weight:bold; font-size:16px;')
-            $('img.join').remove();}else{
+            $('img.join').remove();
+            $('#daizu').attr('style',"font-weight: bold; font-size: 25px; margin-top: 16px; margin-bottom:0px;")
+            $('#daizu').text('参加したい授業を')
+            $('#daizu').after("<h2 class='h5 text-center' style='font-weight: bold; margin-bottom:30px; font-size: 25px;' id='daizu2'>選択してください!!!</h2>")}else{
                 $('h5.card-title').attr('style','font-weight:bold;')
+                $('#daizu').attr('style',"font-weight: bold; font-size: 25px; margin-top: 16px; margin-bottom:30px;")
+                $('#daizu').text('参加したい授業を選択してください!!!')
+                $('#daizu2').remove();
                 $('a.join').each(function(){
                     $(this).append('<img src="/static/矢印.png" style="position:absolute; right:100px; bottom:10px;" height="70px" class="join">')
             });

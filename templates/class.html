@@ -53,40 +53,26 @@ Index
 
 {% raw %}
 <script type='text/x-template' id='mycomp-template'>
-    <div>
+    <div class='row'>
+        <div class="col-lg-6 col-sm-12">
         <div v-if='flg=="1"'>
-            <div class="jumbotron bg-primary">
-                <h1 class="disply-1 font-weight-bold text-white">発言したい!!!</h1>
-                <hr>
-                <p class="font-weight-bold text-white">あなたは偉いです。</p>
-            </div>
+            <img src='/static/スライド1.jpg' width=100%;>
         </div>
         <div v-if='flg=="2"'>
-            <div class="jumbotron">
-                <h1 class="disply-1">当てられてもOK</h1>
-                <hr>
-                <p>あなたは消極的です。</p>
-            </div>
+            <img src='/static/スライド2.jpg' width=100%;>
         </div>
         <div v-if='flg=="3"'>
-            <div class="jumbotron">
-                <h1 class="disply-1">分からない</h1>
-                <hr>
-                <p>残念です。</p>
-            </div>
+            <img src='/static/スライド3.jpg' width=100%;>
         </div>
         <div v-if='flg=="4"'>
-            <div class="jumbotron">
-                <h1 class="disply-1">眠い</h1>
-                <hr>
-                <p>あなたは論外です。</p>
-            </div>
+            <img src='/static/スライド4.jpg' width=100%;>
         </div>
-        <ul class="list-group">
-            <a class="list-group-item list-group-item-action list-group-item-primary" v-on:click="action1"><p class="text-black font-weight-bold text-center">発言したいです。</p></a>
-            <a class="list-group-item list-group-item-action list-group-item-info" v-on:click="action2">当てられてもOK</a>
-            <a class="list-group-item list-group-item-action list-group-item-success" v-on:click="action3">分からないなー</a>
-            <a class="list-group-item list-group-item-action list-group-item-secondary" v-on:click="action4">眠い</a>
+        </div>
+        <ul class="list-group col-lg-6 col-sm-12" style="height:80vh">
+            <a class="list-group-item list-group-item-action list-group-item-primary bg-primary" v-on:click="action1" style="font-weight:bold; margin:2px; color:white; height:25%; font-size:10vh; text-align:center;">発言したいです。</a>
+            <a class="list-group-item list-group-item-action list-group-item-info bg-success" v-on:click="action2" style="font-weight:bold; margin:2px; color:white; height:25%; font-size:10vh;text-align:center">当てられてもOK</a>
+            <a class="list-group-item list-group-item-action list-group-item-success bg-danger" v-on:click="action3" style="font-weight:bold; margin:2px; color:white; height:25%;font-size:10vh;text-align:center">分からないなー</a>
+            <a class="list-group-item list-group-item-action list-group-item-secondary bg-warning" v-on:click="action4" style="font-weight:bold; margin:2px; color:white; height:25%;font-size:10vh;text-align:center">眠い</a>
         </ul>
     </div>
 </script>

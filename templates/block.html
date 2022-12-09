@@ -1,0 +1,149 @@
+<div class="card">
+    <div class="card-header bg-primary text-white font-weight-bold h5" style='height:50px;'><h4 style='font-weight:bold; margin:2px;'>
+      発言したい!!!<a href="{{url1}}/random1"><button type="button" class="btn btn-light font-weight-bold" style='position: absolute; top:5px; right:10px;'><h5 style='font-weight:bold; margin:2px;' id="daizu4">ランダムに並び替え</h5></button></a>
+    </h4></div>
+    <div class="card-body" style='background-color:#deedff;' id='status1'>
+      {% for row1 in status1 %}
+      <div class="row">
+        {% for col1 in row1 %}
+        <div class="col-lg-3 col-md-4 col-sm-6 mt-3">
+          <button class="box" id="startmodal" data-bs-whatever={{col1[1]}} data-point={{col1[3]}} data-tell={{col1[4]}} style="width:fit-content; height:40px; background:#e2e2e2; border: 2px solid #000000; border-radius: 20px 20px 20px 20px;">
+            <p style="margin-top:5px; margin-left:10px; margin-right: 10px; font-weight: bold; color: #000000;">
+              {{col1[1]}}  <span class="badge bg-secondary text-light">{{col1[3]}}pt</span>  <span class="badge bg-secondary text-light">{{col1[4]}}回</span>
+            </p>
+          </button>
+        </div>
+        </button>
+        {% endfor %}
+      </div>
+      {% endfor %}
+    </div>
+</div>
+<div class="card">
+  <div class="card-header bg-success text-white font-weight-bold h5" style='height:50px;'><h4 style='font-weight:bold; margin:2px;'>
+    当てられてもOK<a href="{{url1}}/random2"><button type="button" class="btn btn-light font-weight-bold" style='position: absolute; top:5px; right:10px;'><h5 style='font-weight:bold; margin:2px;' id="daizu3">ランダムに並び替え</h5></button></a>
+  </h4></div>
+  <div class="card-body" style='background-color:#e7fde9;'>
+    {% for row2 in status2 %}
+    <div class="row">
+      {% for col2 in row2 %}
+      <div class="col-lg-3 col-md-4 col-sm-6 mt-3">
+        <button class="box" id="startmodal" data-bs-whatever={{col2[1]}} data-point={{col2[3]}} data-tell={{col2[4]}} style="width:fit-content; height:40px; background:#e2e2e2; border: 2px solid #000000; border-radius: 20px 20px 20px 20px;">
+          <p style="margin-top:5px; margin-left:10px; margin-right: 10px; font-weight: bold; color: #000000;">
+            {{col2[1]}}  <span class="badge bg-secondary text-light">{{col2[3]}}pt</span>  <span class="badge bg-secondary text-light">{{col2[4]}}回</span>
+          </p>
+        </button>
+      </div></button>
+      {% endfor %}
+    </div>
+    {% endfor %}
+</div>
+<div class="card">
+    <div class="card-header bg-danger text-white font-weight-bold h5" style='height:fit-content;'><h4 style='font-weight:bold; margin:2px;'>
+      分からない...
+    </h4></div>
+    <div class="card-body" style='background-color:#fde7e7;'>
+      {% for row3 in status3 %}
+      <div class="row">
+        {% for col3 in row3 %}
+        <div class="col-lg-3 col-md-4 col-sm-6 mt-3">
+          <button class="box" id="startmodal" data-bs-whatever={{col3[1]}} data-point={{col3[3]}} data-tell={{col3[4]}} style="width:fit-content; height:40px; background:#e2e2e2; border: 2px solid #000000; border-radius: 20px 20px 20px 20px;">
+            <p style="margin-top:5px; margin-left:10px; margin-right: 10px; font-weight: bold; color: #000000;">
+              {{col3[1]}}  <span class="badge bg-secondary text-light">{{col3[3]}}pt</span>  <span class="badge bg-secondary text-light">{{col3[4]}}回</span>
+            </p>
+          </button>
+        </div>
+        {% endfor %}
+      </div>
+      {% endfor %}
+    </div>
+</div>
+<div class="card">
+    <div class="card-header bg-warning text-black font-weight-bold h5" style='height:fit-content;'><h4 style='font-weight:bold; margin:2px;'>
+      眠いzzz
+    </h4></div>
+    <div class="card-body" style='background-color:#fafde7;'>
+      {% for row4 in status4 %}
+      <div class="row">
+        {% for col4 in row4 %}
+        <div class="col-lg-3 col-md-4 col-sm-6 mt-3">
+          <button class="box" id="startmodal" data-bs-whatever={{col4[1]}} data-point={{col4[3]}} data-tell={{col4[4]}} style="width:fit-content; height:40px; background:#e2e2e2; border: 2px solid #000000; border-radius: 20px 20px 20px 20px;">
+            <p style="margin-top:5px; margin-left:10px; margin-right: 10px; font-weight: bold; color: #000000;">
+              {{col4[1]}}  <span class="badge bg-secondary text-light">{{col4[3]}}pt</span>  <span class="badge bg-secondary text-light">{{col4[4]}}回</span>
+            </p>
+          </button>
+        </div>
+        {% endfor %}
+      </div>
+      {% endfor %}
+    </div>
+</div>
+<div class="card">
+    <div class="card-header bg-secondary text-white font-weight-bold h5" style='height:fit-content;'><h4 style='font-weight:bold; margin:2px;'>
+        未投票(授業を聞いていないかもしれない)
+    </h4></div>
+    <div class="card-body">
+      {% for row5 in status5 %}
+      <div class="row">
+        {% for col5 in row5 %}
+        <div class="col-lg-3 col-md-4 col-sm-6 mt-3">
+          <button class="box" id="startmodal" data-bs-whatever={{col5[1]}} data-point={{col5[3]}} data-tell={{col5[4]}} style="width:fit-content; height:40px; background:#e2e2e2; border: 2px solid #000000; border-radius: 20px 20px 20px 20px;">
+            <p style="margin-top:5px; margin-left:10px; margin-right: 10px; font-weight: bold; color: #000000;">
+              {{col5[1]}}  <span class="badge bg-secondary text-light">{{col5[3]}}pt</span>  <span class="badge bg-secondary text-light">{{col5[4]}}回</span>
+            </p></button>
+        </div>
+        {% endfor %}
+      </div>
+      {% endfor %}
+    </div>
+</div>
+<div class="card">
+    <div class="card-header bg-dark text-white font-weight-bold h5" style='height:fit-content;'><h4 style='font-weight:bold; margin:2px;'>
+        休み(このサイトにログインしていない)
+    </h4></div>
+    <div class="card-body">
+      {% for row0 in status0 %}
+      <div class="row">
+        {% for col0 in row0 %}  
+        <div class="col-lg-3 col-md-4 col-sm-6 mt-3">
+          <button class="box" id="startmodal" data-bs-whatever={{col0[1]}} data-point={{col0[3]}} data-tell={{col0[4]}} style="width:fit-content; height:40px; background:#e2e2e2; border: 2px solid #000000; border-radius: 20px 20px 20px 20px;" autofocus>
+            <p style="margin-top:5px; margin-left:10px; margin-right: 10px; font-weight: bold; color: #000000;">
+              {{col0[1]}}  <span class="badge bg-secondary text-light">{{col0[3]}}pt</span>  <span class="badge bg-secondary text-light">{{col0[4]}}回</span>
+            </p>
+          </button>
+        </div>
+        {% endfor %}
+      </div>
+      {% endfor %}
+    </div>
+</div>
+</div>
+<script>
+    $('button.box').each(function(){
+        $(this).mouseover(function(){
+        $(this).attr('style',"width:fit-content; height:40px; background:rgb(101, 98, 106); border: 2px solid #000000; border-radius: 20px 20px 20px 20px;")
+      })
+        $(this).mouseout(function(){
+        $(this).attr('style',"width:fit-content; height:40px; background:#e2e2e2; border: 2px solid #000000; border-radius: 20px 20px 20px 20px;")
+      })
+      
+        $(this).click(function(){
+          var id=$(this).attr('data-bs-whatever')
+          var point=$(this).attr('data-point')
+          var tell=$(this).attr('data-tell')
+          $('#modalid').attr('value',id);
+          $('#modalpoint').attr('value',point);
+          $('#modaltell').attr('value',tell);
+          $('#modaltitle').text(id+'さん');
+          $('#newModal').modal('show');
+          })});
+
+var windowSm=640;
+var windowWidth=$(window).width();
+if(windowWidth <= windowSm){
+$('#daizu3').attr('style','font-weight:bold; font-size:16px; margin:2px;')
+$('#daizu4').attr('style','font-weight:bold; font-size:16px; margin:2px;')}
+else{$('#daizu3').attr('style','font-weight:bold; margin:0px;')
+$('#daizu4').attr('style','font-weight:bold; margin:0px;')}
+
+</script>

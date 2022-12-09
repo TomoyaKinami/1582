@@ -10,25 +10,25 @@ Index
 <div style="background-color:rgb(111, 0, 255); position: fixed; top:0px; left:0px; width:100%; z-index: 100;">
     <nav class="navbar navbar-expand-lg text-white">
         <div class="container-fluid">
-            <a class="navbar-brand" href="" style="color:white; font-weight: bold; font-family: 'Meiryo UI'; font-size: 25px;">{{message}}</a>
+            <a class="navbar-brand" href="" style="color:white; font-weight: bold; font-size: 25px;">{{message}}</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link" href="/" id="nav2" aria-current="page" style="color:white; font-weight: bold; font-family: 'Meiryo UI'; font-size: 25px;">Home</a>
+                        <a class="nav-link" href="/" id="nav2" aria-current="page" style="color:white; font-weight: bold; font-size: 25px;">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link disabled" style="color:white; font-weight: bold; font-family: 'Meiryo UI'; font-size: 25px; opacity: .5;">Setting</a>
+                        <a class="nav-link disabled" style="color:white; font-weight: bold; font-size: 25px; opacity: .5;">Setting</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color:white; font-weight: bold; font-family: 'Meiryo UI'; font-size: 25px;">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color:white; font-weight: bold; font-size: 25px;">
                             Class
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown" style="background-color:rgb(111, 0, 255); width:max-content;">
                             {% for item in msg4 %}
-                            <li><a class="dropdown-item" href={{item[4]}} style="color: white; font-weight:bold; font-family:'Meiryo UI';">{{item[1]}}</a></li>
+                            <li><a class="dropdown-item" href={{item[4]}} style="color: white; font-weight:bold;">{{item[1]}}</a></li>
                             {% endfor %}
                         </ul>
                     </li>  
@@ -37,7 +37,7 @@ Index
         </div>
     </nav>
     <div style="position:absolute; top:13px; right:80px;">
-        <a class="nav-link" href="/logout" style="color:white; font-weight: bold; font-family: 'Meiryo UI'; font-size: 25px;">Logout</a>
+        <a class="nav-link" href="/logout" style="color:white; font-weight: bold; font-size: 25px;">Logout</a>
     </div>
 </div>
 <div style="position: absolute; top:80px; left:20px; right:20px; z-index: -100;">
@@ -49,11 +49,11 @@ Index
 <div class="card m-3">
     <div class="card-header">
         {% if err=='1' %}
-        <h4 class="card-title text-black" style="font-weight: bold; font-family:'Meiryo UI';">
+        <h4 class="card-title text-black" style="font-weight: bold;">
         {% elif err=='2' %}
-        <h4 class="card-title text-success" style="font-weight: bold; font-family:'Meiryo UI';">
+        <h4 class="card-title text-success" style="font-weight: bold;">
         {% else %}
-        <h4 class="card-title text-danger" style="font-weight: bold; color:red; font-family:'Meiryo UI';">
+        <h4 class="card-title text-danger" style="font-weight: bold; color:red;">
         {% endif %}
             {{msg3}}
         </h4>
@@ -93,16 +93,16 @@ Index
 {% block script %}
 <script>
 $('#nav2').mouseover(function(){
-  $('#nav2').attr("style","color:rgb(101,98,106); font-weight: bold; font-family: 'Meiryo UI'; font-size: 25px;")
+  $('#nav2').attr("style","color:rgb(101,98,106); font-weight: bold; font-size: 25px;")
 })
 $('#nav2').mouseout(function(){
-  $('#nav2').attr("style","color:white; font-weight: bold; font-family: 'Meiryo UI'; font-size: 25px;")
+  $('#nav2').attr("style","color:white; font-weight: bold; font-size: 25px;")
 });
 $('#navbarDropdown').mouseover(function(){
-  $(this).attr("style","color:rgb(101,98,106); font-weight: bold; font-family: 'Meiryo UI'; font-size: 25px;")
+  $(this).attr("style","color:rgb(101,98,106); font-weight: bold; font-size: 25px;")
 })
 $('#navbarDropdown').mouseout(function(){
-  $(this).attr("style","color:white; font-weight: bold; font-family: 'Meiryo UI'; font-size: 25px;")
+  $(this).attr("style","color:white; font-weight: bold; font-size: 25px;")
 });
 </script>
 {% endblock %}

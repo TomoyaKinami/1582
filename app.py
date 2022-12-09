@@ -266,6 +266,7 @@ def hello_world(class_name):
                         if class_list[i][4]==class_name:
                             if not class_list[i][6]=='0':
                                 timelist=[]
+                                syncro=True
                                 for i in range(0,len(status_list)):
                                     if status_list[i][5]==None:
                                         continue
@@ -281,6 +282,7 @@ def hello_world(class_name):
                                 conn.close()
                                 break
                             else:
+                                syncro=False
                                 break    
                     msg=session['id']+'先生'
                     msg2=class_list[key][1]
@@ -398,6 +400,7 @@ def hello_world(class_name):
                             message=msg,\
                                 msg2=msg2,\
                                     warning=warning,\
+                                        syncro=syncro,\
                                             status1=status1,\
                                                 status2=status2,\
                                                     status3=status3,\
@@ -430,7 +433,7 @@ def hello_world(class_name):
                                         conn.close()
                                     status_list=get_db('number.sqlite3',db_name)
                                     msg3=status_list[key2][2]
-                    msg5='"'+class_list[key][4]+'"'
+                    msg5=class_name
                     return render_template('class.html',\
                         title='class',\
                             message=msg,\
@@ -443,32 +446,235 @@ def hello_world(class_name):
     else:
         return redirect('/login')
 
-@app.route('/class/post',methods=['POST'])
-def receive_status():
+@app.route('/class/<class_name>/post1',methods=['GET'])
+def receive_status1(class_name):
     newid2=str(session['id'])
-    class_name=request.form.get("url")
-    newstatus=request.form.get("status")
     class_list=get_db('number.sqlite3','classes')
     for i in range(0,len(class_list)):
         if class_list[i][4]==class_name:
             if not class_list[i][6]=='0':
                 conn = sqlite3.connect('number.sqlite3')
                 cur = conn.cursor()
-                cur.execute('UPDATE '+class_name+' SET status='+newstatus+' WHERE name="'+newid2+'"')
+                cur.execute('UPDATE '+class_name+' SET status=1 WHERE name="'+newid2+'"')
                 conn.commit()
                 cur.close()
                 conn.close()
-                return newstatus
+                return redirect('/class/'+class_name)
             else:
                 db_name=class_name+'2'
                 if db_exists('number.sqlite3',db_name):
                     conn = sqlite3.connect('number.sqlite3')
                     cur = conn.cursor()
-                    cur.execute('UPDATE '+db_name+' SET status='+newstatus+' WHERE name="'+newid2+'"')
+                    cur.execute('UPDATE '+db_name+' SET status=1 WHERE name="'+newid2+'"')
                     conn.commit()
                     cur.close()
                     conn.close()
-                return newstatus    
+                return  redirect('/class/'+class_name)
+
+@app.route('/class/<class_name>/post2',methods=['GET'])
+def receive_status2(class_name):
+    newid2=str(session['id'])
+    class_list=get_db('number.sqlite3','classes')
+    for i in range(0,len(class_list)):
+        if class_list[i][4]==class_name:
+            if not class_list[i][6]=='0':
+                conn = sqlite3.connect('number.sqlite3')
+                cur = conn.cursor()
+                cur.execute('UPDATE '+class_name+' SET status=2 WHERE name="'+newid2+'"')
+                conn.commit()
+                cur.close()
+                conn.close()
+                return redirect('/class/'+class_name)
+            else:
+                db_name=class_name+'2'
+                if db_exists('number.sqlite3',db_name):
+                    conn = sqlite3.connect('number.sqlite3')
+                    cur = conn.cursor()
+                    cur.execute('UPDATE '+db_name+' SET status=2 WHERE name="'+newid2+'"')
+                    conn.commit()
+                    cur.close()
+                    conn.close()
+                return  redirect('/class/'+class_name)  
+
+@app.route('/class/<class_name>/post3',methods=['GET'])
+def receive_status3(class_name):
+    newid2=str(session['id'])
+    class_list=get_db('number.sqlite3','classes')
+    for i in range(0,len(class_list)):
+        if class_list[i][4]==class_name:
+            if not class_list[i][6]=='0':
+                conn = sqlite3.connect('number.sqlite3')
+                cur = conn.cursor()
+                cur.execute('UPDATE '+class_name+' SET status=3 WHERE name="'+newid2+'"')
+                conn.commit()
+                cur.close()
+                conn.close()
+                return redirect('/class/'+class_name)
+            else:
+                db_name=class_name+'2'
+                if db_exists('number.sqlite3',db_name):
+                    conn = sqlite3.connect('number.sqlite3')
+                    cur = conn.cursor()
+                    cur.execute('UPDATE '+db_name+' SET status=3 WHERE name="'+newid2+'"')
+                    conn.commit()
+                    cur.close()
+                    conn.close()
+                return  redirect('/class/'+class_name) 
+
+@app.route('/class/<class_name>/post4',methods=['GET'])
+def receive_status4(class_name):
+    newid2=str(session['id'])
+    class_list=get_db('number.sqlite3','classes')
+    for i in range(0,len(class_list)):
+        if class_list[i][4]==class_name:
+            if not class_list[i][6]=='0':
+                conn = sqlite3.connect('number.sqlite3')
+                cur = conn.cursor()
+                cur.execute('UPDATE '+class_name+' SET status=4 WHERE name="'+newid2+'"')
+                conn.commit()
+                cur.close()
+                conn.close()
+                return redirect('/class/'+class_name)
+            else:
+                db_name=class_name+'2'
+                if db_exists('number.sqlite3',db_name):
+                    conn = sqlite3.connect('number.sqlite3')
+                    cur = conn.cursor()
+                    cur.execute('UPDATE '+db_name+' SET status=4 WHERE name="'+newid2+'"')
+                    conn.commit()
+                    cur.close()
+                    conn.close()
+                return  redirect('/class/'+class_name)  
+
+@app.route('/class/<class_name>/correct',methods=['GET'])
+def correct(class_name):
+                    file3='cache/'+class_name+'_correct.dat'
+                    status_list=get_db('number.sqlite3',class_name)
+                    list0=[]
+                    list1=[]
+                    list2=[]
+                    list3=[]
+                    list4=[]
+                    list5=[]
+                    newstatus_list=[]
+                    for i in range(0,len(status_list)):
+                        newstatus_list.append(list(status_list[i]))
+                    for i in range(0,len(newstatus_list)):
+                        url=class_name+'/'+str(newstatus_list[i][0])
+                        newstatus_list[i].append(url)
+                    for i in range(0,len(newstatus_list)):
+                        if newstatus_list[i][2]=='0':
+                            list0.append(newstatus_list[i])
+                        if newstatus_list[i][2]=='1':
+                            list1.append(newstatus_list[i])
+                        if newstatus_list[i][2]=='2':
+                            list2.append(newstatus_list[i])
+                        if newstatus_list[i][2]=='3':
+                            list3.append(newstatus_list[i])
+                        if newstatus_list[i][2]=='4':
+                            list4.append(newstatus_list[i])
+                        if newstatus_list[i][2]=='5':
+                            list5.append(newstatus_list[i])
+                    if session['random1']==True:
+                        file1='cache/'+class_name+'_random1.dat'
+                        try:
+                            with open(file1,'rb') as f:
+                                oldlist1=pickle.load(f)
+                            partial_list1=[]
+                            for i in range(0,len(list1)):
+                                partial_list1.append(list1[i][0])
+                            list1_update1=set(oldlist1)-set(partial_list1)
+                            list1_update2=set(partial_list1)-set(oldlist1)
+                            for i in range(0,len(list1_update1)):
+                                for t in range(0,len(oldlist1)):
+                                    if oldlist1[t]==list1_update1[i]:
+                                        oldlist1.remove(oldlist1[t])
+                            oldlist1.extend(list1_update2)
+                            newlist1=[]
+                            for t in range(0,len(oldlist1)):
+                                for i in range(0,len(list1)):
+                                    if list1[i][0]==oldlist1[t]:
+                                        newlist1.append(list1[i])
+                            status1=block(newlist1)
+                        except:
+                            newlist1=random_create(list1)
+                            newnewlist1=[]
+                            status1=block(newlist1)
+                            for i in range(0,len(newlist1)):
+                                newnewlist1.append(newlist1[i][0])
+                            try:
+                                with open(file1,'wb') as f:
+                                    pickle.dump(newnewlist1,f)
+                            except:
+                                pass
+                    else:
+                        status1=block(list1)
+                    if session['random2']==True:
+                        file2='cache/'+class_name+'_random2.dat'
+                        try:
+                            with open(file2,'rb') as f:
+                                oldlist2=pickle.load(f)
+                            partial_list2=[]
+                            for i in range(0,len(list2)):
+                                partial_list2.append(list2[i][0])
+                            list2_update1=set(oldlist2)-set(partial_list2)
+                            list2_update2=set(partial_list2)-set(oldlist2)
+                            for i in range(0,len(list2_update1)):
+                                for t in range(0,len(oldlist2)):
+                                    if oldlist2[t]==list2_update1[i]:
+                                        oldlist2.remove(oldlist2[t])
+                            oldlist2.extend(list2_update2)
+                            newlist2=[]
+                            for t in range(0,len(oldlist2)):
+                                for i in range(0,len(list2)):
+                                    if list2[i][0]==oldlist2[t]:
+                                        newlist2.append(list2[i])
+                            status2=block(newlist2)
+                        except:
+                            newlist2=random_create(list2)
+                            newnewlist2=[]
+                            status2=block(newlist2)
+                            for i in range(0,len(newlist2)):
+                                newnewlist2.append(newlist2[i][0])
+                            try:
+                                with open(file2,'wb') as f:
+                                    pickle.dump(newnewlist2,f)
+                            except:
+                                pass
+                    else:
+                        status2=block(list2)
+                    status0=block(list0)
+                    status3=block(list3)
+                    status4=block(list4)
+                    status5=block(list5)
+                    url1=class_name
+                    allstatus=[]
+                    allstatus.append(status0)
+                    allstatus.append(status1)
+                    allstatus.append(status2)
+                    allstatus.append(status3)
+                    allstatus.append(status4)
+                    allstatus.append(status5)
+                    try:
+                        with open(file3,'rb') as f:
+                            judge=pickle.load(f)
+                            if allstatus==judge:
+                                return('True')
+                    except:
+                        pass
+                    try:
+                        with open(file3,'wb') as f:
+                            pickle.dump(allstatus,f)
+                    except:
+                        pass
+                    return render_template('block.html',\
+                                            status1=status1,\
+                                                status2=status2,\
+                                                    status3=status3,\
+                                                        status4=status4,\
+                                                            status5=status5,\
+                                                                status0=status0,\
+                                                                            url1=url1)
     
 
 @app.route('/class/<class_name>/random1',methods=['GET'])
@@ -737,4 +943,4 @@ def register(class_name):
 
 if __name__=='__main__':
     app.debug=False
-    app.run(host='localhost')
+    app.run(host='0.0.0.0')

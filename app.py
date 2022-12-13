@@ -270,7 +270,7 @@ def hello_world(class_name):
                                 for i in range(0,len(status_list)):
                                     if status_list[i][5]==None:
                                         continue
-                                    elif float(status_list[i][5])<=float(current-300):
+                                    elif float(status_list[i][5])<=float(current-1800):
                                         timelist.append(status_list[i][0])
                                 conn = sqlite3.connect('number.sqlite3')
                                 cur = conn.cursor()

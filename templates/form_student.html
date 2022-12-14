@@ -1,0 +1,103 @@
+{% extends 'layout.html' %}
+{% block title %}
+{{title}}
+{% endblock %}
+
+{% block refresh %}
+{% endblock %}
+
+{% block content %}
+<div style="background-color:rgb(111, 0, 255); position: fixed; top:0px; left:0px; width:100%; z-index: 100;">
+<nav class="navbar navbar-expand-lg text-white">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#" style="color:white; font-weight: bold; font-size: 25px;">{{message}}</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" id="nav1" aria-current="page" href="/" style="color:white; font-weight: bold;  font-size: 25px;">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/setting" id="nav2" style="color:white; font-weight: bold;  font-size: 25px;">Setting</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color:white; font-weight: bold; font-size: 25px;">
+              Class
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown" style="background-color:rgb(111, 0, 255); width:max-content;">
+                {% for item in msg4 %}
+              <li><a class="dropdown-item" href={{item[4]}} style="color: white; font-weight:bold;">{{item[1]}}</a></li>
+              {% endfor %}
+              <li><hr class="dropdown-divider" style="background-color:white;"></li>
+              <li><p style="color: white; font-weight:bold; margin: 10px;">{{msg2}}</p></li>
+            </ul>
+          </li>  
+        </ul>
+      </div>
+    </div>
+    
+  </nav>
+  <div style="position:absolute; top:13px; right:80px;">
+        <a class="nav-link" href="/logout" style="color:rgb(255, 255, 255); font-weight: bold; font-size: 25px;">Logout</a>
+    </div>
+</div>
+<div style="position: absolute; top:80px; left:20px; right:20px; z-index: -100;">
+
+    <div>
+      <div class="m-3">
+        <h2 class='h5' style="font-weight: bold; font-size: 25px; margin-top: 16px; margin-bottom:30px;">
+            質問文:{{sentence}}</h2>
+          </div>
+            <div id="output">
+            {% for item in finalform %}
+            <div class="card">
+            <div class="card-header font-weight-bold h5 text-white" style='height:50px; background-color:{{item[1]}};'><h4 style='font-weight:bold; margin:2px;'>
+              {{item[0]}}
+            </h4></div>
+            <div class="card-body">
+              {% for row1 in item[2] %}
+              <div class="row">
+                {% for col1 in row1 %}
+                <div class="col-lg-3 col-md-4 col-sm-6 mt-3">
+                  <div class="box" style="width:fit-content; height:40px; background:#e2e2e2; border: 2px solid #000000; border-radius: 20px 20px 20px 20px;">
+                    <p style="margin-top:5px; margin-left:10px; margin-right: 10px; font-weight: bold; color: #000000;">
+                      {{col1[1]}}  <span class="badge bg-secondary text-light">??pt</span>  <span class="badge bg-secondary text-light">??回</span>
+                    </p>
+                  </div>
+                </div>
+                {% endfor %}
+              </div>
+              {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+</div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script>
+  $('#nav1').mouseover(function(){
+    $('#nav1').attr("style","color:rgb(101,98,106); font-weight: bold; font-size: 25px;")
+  })
+  $('#nav1').mouseout(function(){
+    $('#nav1').attr("style","color:white; font-weight: bold; font-size: 25px;")
+  });
+  $('#nav2').mouseover(function(){
+    $('#nav2').attr("style","color:rgb(101,98,106); font-weight: bold; font-size: 25px;")
+  })
+  $('#nav2').mouseout(function(){
+    $('#nav2').attr("style","color:white; font-weight: bold; font-size: 25px;")
+  });
+  $('#navbarDropdown').mouseover(function(){
+    $(this).attr("style","color:rgb(101,98,106); font-weight: bold; font-size: 25px;")
+  })
+  $('#navbarDropdown').mouseout(function(){
+    $(this).attr("style","color:white; font-weight: bold; font-size: 25px;")
+  });
+  </script>
+{% endblock %}

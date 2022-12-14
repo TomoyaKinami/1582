@@ -69,18 +69,33 @@
             <a href="{{url1}}/startvote"><button type="button" class="btn btn-lg btn-success font-weight-bold mb-3"><h4 style='font-weight:bold; margin:2px;'>発言を募集する(出席者全員のリアクションを「未投票」にする)</h4></button></a>
             <button type="button" class="btn btn-lg btn-success font-weight-bold mb-3 disabled"><h4 style='font-weight:bold; margin:2px;'>発言の募集を終了する(ptの加算)</h4></button>
             <button type="button" class="btn btn-lg btn-warning font-weight-bold mb-4" id="custom"><h4 style="font-weight: bold; margin: 2px;">カスタムで質問を作成</h4></button>
+              {% if form==True %}
+              <button type="button" class="btn btn-lg btn-warning font-weight-bold mb-4" id="question"><h4 style="font-weight: bold; margin: 2px;">作った質問を表示</h4></button>
+              {% else %}
+              <button type="button" class="btn btn-lg btn-warning font-weight-bold mb-4 disabled" id="question"><h4 style="font-weight: bold; margin: 2px;">作った質問を表示</h4></button>
+              {% endif %}
             {% elif choice=='2' %}
             <button type="button" class="btn btn-lg btn-danger font-weight-bold mb-3 disabled"><h4 style='font-weight:bold; margin:2px; padding-right: 3px;'>授業を開始する(生徒全員のリアクションを「休み」に変更する)</h4></button>
             <button type="button" class="btn btn-lg btn-danger font-weight-bold mb-3 disabled"><h4 style='font-weight:bold; margin:2px;'>授業を終了する(リアクションの登録を不可にする)</h4></button>
             <button type="button" class="btn btn-lg btn-success font-weight-bold mb-3 disabled"><h4 style='font-weight:bold; margin:2px;'>発言を募集する(出席者全員のリアクションを「未投票」にする)</h4></button>
             <a href="{{url1}}/finishvote"><button type="button" class="btn btn-lg btn-success font-weight-bold mb-3"><h4 style='font-weight:bold; margin:2px;'>発言の募集を終了する(ptの加算)</h4></button></a>
             <button type="button" class="btn btn-lg btn-warning font-weight-bold mb-4" id="custom"><h4 style="font-weight: bold; margin: 2px;">カスタムで質問を作成</h4></button>
+              {% if form==True %}
+              <button type="button" class="btn btn-lg btn-warning font-weight-bold mb-4" id="question"><h4 style="font-weight: bold; margin: 2px;">作った質問を表示</h4></button>
+              {% else %}
+              <button type="button" class="btn btn-lg btn-warning font-weight-bold mb-4 disabled" id="question"><h4 style="font-weight: bold; margin: 2px;">作った質問を表示</h4></button>
+              {% endif %}
             {% else %}
             <a href="{{url1}}/startclass"><button type="button" class="btn btn-lg btn-danger mb-3"><h4 style='font-weight:bold; margin:2px; padding-right: 3px;'>授業を開始する(生徒全員のリアクションを「休み」に変更する)</h4></button></a>
             <button type="button" class="btn btn-lg btn-danger font-weight-bold mb-3 disabled"><h4 style='font-weight:bold; margin:2px;'>授業を終了する(リアクションの登録を不可にする)</h4></button>
             <button type="button" class="btn btn-lg btn-success font-weight-bold mb-3 disabled"><h4 style='font-weight:bold; margin:2px;'>発言を募集する(出席者全員のリアクションを「未投票」にする)</h4></button>
             <button type="button" class="btn btn-lg btn-success font-weight-bold mb-3 disabled"><h4 style='font-weight:bold; margin:2px;'>発言の募集を終了する(ptの加算)</h4></button>
             <button type="button" class="btn btn-lg btn-warning font-weight-bold mb-4 disabled" id="custom"><h4 style="font-weight: bold; margin: 2px;">カスタムで質問を作成</h4></button>
+              {% if form==True %}
+              <button type="button" class="btn btn-lg btn-warning font-weight-bold mb-4" id="question"><h4 style="font-weight: bold; margin: 2px;">作った質問を表示</h4></button>
+              {% else %}
+              <button type="button" class="btn btn-lg btn-warning font-weight-bold mb-4 disabled" id="question"><h4 style="font-weight: bold; margin: 2px;">作った質問を表示</h4></button>
+              {% endif %}
             {% endif %}
           </div>
             <div id="output">
@@ -326,13 +341,37 @@
             </div>
             </div>    
       </div>
-      <div class="modal-footer">
+      <div class="modal-footer" id="modalfooter">
         <input type="submit" class="btn btn-primary" value="作成" id="send2">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
       </div>
     </div>
   </div>
 </div>
+{% if form %}
+<div class="modal fade" tabindex="-1" id="formModal">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-warning">
+        <h5 class="modal-title" id="modaltitle" style="font-weight:bold; font-size: 25px;">作った質問を閲覧できます。</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        {% for item in newform_list %}
+        <card type="button" onclick="location.href='{{url1}}/{{item[1]}}'" style="width:100%; border-left-width: 10px; border-left-color:{{item[4]}}" class="card bg-light mb-2" id="form{{item[0]}}">
+          <div class="card-body">
+              <h5 class="card-title" style="font-weight:bold;">form{{item[0]}}            <span style="font-size:13px; font-weight:normal;">回答方式:{{item[3]}}</span></h5>
+              <p class="card-text">質問文:{{item[2]}}</p></div>
+        </card>
+        {% endfor %}
+      </div>  
+      <div class="modal-footer" id="modalfooter">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
 {% endblock %}
 
 {% block script %}
@@ -423,8 +462,67 @@
     $('#newappend').before('<div class="row g-3 align-items-center" style="margin-bottom:20px;"><div class="col-auto"><button type="button" name="kin" class="btn btn-warning btn-sm" style="font-weight:bold;" id="delete'+len+'" onclick="delete_key(id);">削除</button>  <label for="modaltel" class="col-form-text align-items-right" style="font-weight:bold;">選択肢'+len+'</label></div><div class="col-auto input-group" style="position:absolute; right:10px; width: 160px;"><input type="text" name="modalpoint" id="branch'+len+'" class="form-control" aria-describedby="passwordHelpInline" required></div></div>')
   }})
   $('#send2').on({'click':function(){
-    consle.log('True')
+    var blank1=$('#modalstyle').val()
+    var blank2=$('#modalsentence').val()
+    var formData = new FormData();
+    console.log(blank1)
+    if(blank1=='0'){if($('#modalfooter').children().length>=3){$('#errorcode').text('質問形式を選んで下さい。')}else{$('#modalfooter').append('<p class="text-danger" id="errorcode" style="font-weight: bold; position:absolute; left:20px;">質問形式を選んで下さい。</p>')}}else{
+      if(blank2==false){if($('#modalfooter').children().length>=3){$('#errorcode').text('質問文を入力して下さい。')}else{$('#modalfooter').append('<p class="text-danger" id="errorcode" style="font-weight: bold; position:absolute; left:20px;">質問文を入力して下さい。</p>')}}else{
+        if(blank1=='3'){
+          error=false;
+          formData.append('sentence',blank2);
+          formData.append('style',blank1);
+        }else{
+          error=false;
+          formData.append('sentence',blank2);
+          formData.append('style',blank1);
+          branch1=$('#branch1').val()
+          branch2=$('#branch2').val()
+          if(branch1==false){error=true;}
+          if(branch2==false){error=true;}
+          formData.append('branch1',branch1)
+          formData.append('branch2',branch2)
+          count=$('#branch').children().length;
+          for(let i=3; i<(count-1); i++){
+            var branchize=$('#branch'+i).val()
+            console.log(branchize)
+            if(branchize==false){
+              error=true;}
+            formData.append('branch'+i,branchize)
+          }}
+          if(error==true){
+            if($('#modalfooter').children().length>=3){$('#errorcode').text('不要な選択肢を消すなり、埋めるなりして下さい。')}else{$('#modalfooter').append('<p class="text-danger" id="errorcode" style="font-weight: bold; position:absolute; left:20px;">不要な選択肢を消すなり、埋めるなりして下さい。</p>')}
+          }else{
+          $.ajax({
+            type:'POST',
+            url:'{{url1}}/formregister',
+            data:formData,
+            processData:false,
+            contentType:false,
+            success:function(data){
+              if(data=='true'){
+                location='';
+              }else{
+                if($('#modalfooter').children().length>=3){$('#errorcode').text('Errorが発生しました。')}else{$('#modalfooter').append('<p class="text-danger" id="errorcode" style="font-weight: bold; position:absolute; left:20px;">Errorが発生しました。</p>')}
+              }},
+            error:function(request,status,err){
+              console.log('送信失敗');}});
+              }}}}})
+  $('#oldModal').on({'hidden.bs.modal':function(){
+    if($('#modalfooter').children().length>=3){$('#errorcode').remove()}
   }})
+  {% if form %}
+  $('#question').on({'click':function(){
+    $('#formModal').modal('show');
+  }})
+  $('card').each(function(){
+    $(this).mouseover(function(){
+    $(this).attr("class","card bg-secondary text-white mb-2")
+})
+$(this).mouseout(function(){
+  $(this).attr("class","card bg-light mb-2")
+})});
+  {% endif %}
   var windowSm=640;
           $(window).on('load resize',function(){
               var windowWidth=$(window).width();

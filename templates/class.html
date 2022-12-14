@@ -70,7 +70,99 @@ Index
             <a class="list-group-item list-group-item-action list-group-item-secondary bg-warning text-black" href="{{msg5}}/post4" style="font-weight:bold; margin:2px; color:white; height:25%;font-size:10vh;text-align:center" id="daizu8">眠い</a>
         </ul>
     </div>
+    {% if afterclass %}
+    <div class="row m-3">
+      <h2 class='h5 text-center' style="font-weight: bold; margin-top:20px; margin-bottom:20px; font-size: 25px;">
+          前回の授業の質問
+      </h2>
+      {% for item in newform_list %}
+      {% if item[6]=='0' %}
+      <card type="button" style="width:100%; border-left-width: 10px; border-left-color:{{item[4]}}" class="card bg-light mb-2" id="form{{item[0]}}">
+        <div class="card-body">
+            <h5 class="card-title" style="font-weight:bold;"><span class="badge bg-danger">未回答</span>  form{{item[0]}}            <span style="font-size:13px; font-weight:normal;">回答方式:{{item[3]}}</span></h5>
+            <p class="card-text">質問文:{{item[2]}}</p></div>
+      </card>
+      {% elif item[6]=='1' %}
+      <card type="button" onclick="location.href='{{url1}}/{{item[1]}}'" style="width:100%; border-left-width: 10px; border-left-color:{{item[4]}}" class="card bg-light mb-2" id="form{{item[0]}}">
+          <div class="card-body">
+                <h5 class="card-title" style="font-weight:bold;"><span class="badge bg-success">回答済み</span>  form{{item[0]}}            <span style="font-size:13px; font-weight:normal;">回答方式:{{item[3]}}</span></h5>
+              <p class="card-text">質問文:{{item[2]}}</p></div>
+        </card>
+      {% endif %}
+      {% endfor %}
+    </div>
+    {% endif %}
+    {% if form %}
+    <div class="row m-3">
+        <h2 class='h5 text-center' style="font-weight: bold; margin-top:20px; margin-bottom:20px; font-size: 25px;">
+            以下の質問に答えてください!!!
+        </h2>
+        {% for item in newform_list %}
+        {% if item[6]=='0' %}
+        <card type="button" style="width:100%; border-left-width: 10px; border-left-color:{{item[4]}}" class="card bg-light mb-2" id="form{{item[0]}}">
+          <div class="card-body">
+              <h5 class="card-title" style="font-weight:bold;"><span class="badge bg-danger">未回答</span>  form{{item[0]}}            <span style="font-size:13px; font-weight:normal;">回答方式:{{item[3]}}</span></h5>
+              <p class="card-text">質問文:{{item[2]}}</p></div>
+        </card>
+        {% elif item[6]=='1' %}
+        <card type="button" onclick="location.href='{{url1}}/{{item[1]}}'" style="width:100%; border-left-width: 10px; border-left-color:{{item[4]}}" class="card bg-light mb-2" id="form{{item[0]}}">
+            <div class="card-body">
+                  <h5 class="card-title" style="font-weight:bold;"><span class="badge bg-success">回答済み</span>  form{{item[0]}}            <span style="font-size:13px; font-weight:normal;">回答方式:{{item[3]}}</span></h5>
+                <p class="card-text">質問文:{{item[2]}}</p></div>
+          </card>
+        {% endif %}
+        {% endfor %}
+    </div>
+    {% endif %}
 </div>
+{% if form %}
+{% for item in newform_list %}
+{% if item[6]=='0' %}
+<div class="modal fade" tabindex="-1" id="formModal{{item[0]}}">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header bg-warning">
+          <h5 class="modal-title" id="modaltitle" style="font-weight:bold; font-size: 25px;">form{{item[0]}}</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form action="{{url1}}/{{item[1]}}" method="post">
+        <div class="modal-body">
+            <h5 style="font-weight:bold;">{{item[2]}}</h5>
+                {% if item[3]=='ラジオボタン' %}
+                {% for part in item[5] %}
+                <div class="form-check h6 mt-3">
+                <input class="form-check-input" type="radio" name="radio" id="radio" value="{{part}}">
+                <label class="form-check-label" for="radio">
+                    {{part}}
+                  </label>
+                </div>
+                {% endfor %}
+                {% elif item[3]=='チェックボックス' %}
+                {% for part in item[5] %}
+                <div class="form-check h6 mt-3">
+                <input class="form-check-input" type="checkbox" value="{{part}}" id="flexCheckDefault" name="checkbox">
+                <label class="form-check-label" for="flexCheckDefault">
+                {{part}}
+                </label>
+                </div>
+                {% endfor %}
+                {% elif item[3]=='自由回答' %}
+                <div class="mt-3">
+                    <textarea name="freeform" class="form-control" id="exampleFormControlTextarea1" placeholder="入力してください。" rows="3" required></textarea>
+                </div>
+                {% endif %}
+        </div>  
+        <div class="modal-footer" id="modalfooter">
+            <button type="submit" class="btn btn-primary">Send</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endif %}
+{% endfor %}
+{% endif %}
 {% endblock %}
 
 {% block script %}
@@ -110,5 +202,30 @@ Index
                   $('#daizu8').attr('style',"font-weight:bold; margin:2px; height:25%; font-size:10vh; text-align:center;"),
                   $('#daizu5').attr('style',"height:80vh")}
                   });
+{% if form %}
+{% for item in newform_list %}
+{% if item[6]=='0' %}
+$('#form{{item[0]}}').on({'click':function(){
+    $('#formModal{{item[0]}}').modal('show');
+}})
+{% endif %}
+{% endfor %}
+  $('card').each(function(){
+    $(this).mouseover(function(){
+    $(this).attr("class","card bg-secondary text-white mb-2")
+})
+$(this).mouseout(function(){
+  $(this).attr("class","card bg-light mb-2")
+})});
+  {% endif %}
+  {% if afterclass %}
+  $('card').each(function(){
+    $(this).mouseover(function(){
+    $(this).attr("class","card bg-secondary text-white mb-2")
+})
+$(this).mouseout(function(){
+  $(this).attr("class","card bg-light mb-2")
+})});
+  {% endif %}
 </script>
 {% endblock %}

@@ -8,6 +8,7 @@ import time
 import werkzeug
 
 
+
 app=Flask(__name__)
 app.secret_key=b'random_string'
 app.permanent_session_lifetime = timedelta(days=5)
@@ -260,6 +261,8 @@ def hello_world(class_name):
                             cur.close()
                             conn.close()
             status_list=get_db('number.sqlite3',class_name)
+            form_list=get_db('number.sqlite3',class_name+'_form')
+            color_list=['rgb(0, 234, 255)','rgb(162, 255, 0)','rgb(111, 0, 255)','rgb(255, 0, 17)','rgb(255, 242, 0)']
             if 'login' in session and session['login']:
                 if session['license']:
                     for i in range(0,len(class_list)):
@@ -392,25 +395,58 @@ def hello_world(class_name):
                     status5=block(list5)
                     url1=class_name
                     warning=False
+                    form=True
                     if 'warning' in session and session['warning']:
                         warning=True
                         session.pop('warning')
-                    return render_template('class_teacher.html',\
-                        title='class',\
-                            message=msg,\
-                                msg2=msg2,\
-                                    warning=warning,\
-                                        syncro=syncro,\
-                                            status1=status1,\
-                                                status2=status2,\
-                                                    status3=status3,\
-                                                        status4=status4,\
-                                                            status5=status5,\
-                                                                status0=status0,\
-                                                                    choice=choice,\
-                                                                        msg4=msg4,\
-                                                                            url1=url1)
+                    if len(form_list)==0:
+                        form=False
+                        return render_template('class_teacher.html',\
+                            title='class',\
+                                message=msg,\
+                                    msg2=msg2,\
+                                        warning=warning,\
+                                            syncro=syncro,\
+                                                status1=status1,\
+                                                    status2=status2,\
+                                                        status3=status3,\
+                                                            status4=status4,\
+                                                                status5=status5,\
+                                                                    status0=status0,\
+                                                                        choice=choice,\
+                                                                            msg4=msg4,\
+                                                                                url1=url1,\
+                                                                                    form=form)
+                    else:
+                        newform_list=[]
+                        for i in range(0,len(form_list)):
+                            newform_list.append(list(form_list[i]))
+                            newform_list[i].append(color_list[random.randrange(len(color_list))])
+                            if newform_list[i][3]=='1':
+                                newform_list[i][3]='ラジオボタン'
+                            if newform_list[i][3]=='2':
+                                newform_list[i][3]='チェックボックス'
+                            if newform_list[i][3]=='3':
+                                newform_list[i][3]='自由回答'
+                        return render_template('class_teacher.html',\
+                            title='class',\
+                                message=msg,\
+                                    msg2=msg2,\
+                                        warning=warning,\
+                                            syncro=syncro,\
+                                                status1=status1,\
+                                                    status2=status2,\
+                                                        status3=status3,\
+                                                            status4=status4,\
+                                                                status5=status5,\
+                                                                    status0=status0,\
+                                                                        choice=choice,\
+                                                                            msg4=msg4,\
+                                                                                url1=url1,\
+                                                                                    form=form,\
+                                                                                        newform_list=newform_list)
                 else:
+                    url1=class_name
                     msg=session['id']+'さん'
                     msg2=class_list[key][1]
                     class_list.remove(class_list[key])
@@ -434,13 +470,82 @@ def hello_world(class_name):
                                     status_list=get_db('number.sqlite3',db_name)
                                     msg3=status_list[key2][2]
                     msg5=class_name
-                    return render_template('class.html',\
-                        title='class',\
-                            message=msg,\
-                                msg2=msg2,\
-                                    msg3=msg3,\
-                                        msg5=msg5,\
-                                            msg4=msg4)
+                    form=True
+                    if len(form_list)==0:
+                        form=False
+                        return render_template('class.html',\
+                            title='class',\
+                                message=msg,\
+                                    msg2=msg2,\
+                                        msg3=msg3,\
+                                            msg5=msg5,\
+                                                msg4=msg4,\
+                                                    form=form,\
+                                                        url1=url1,\
+                                                            afterclass=False)
+                    else:
+                        newform_list=[]
+                        formform=[]
+                        for i in range(0,len(form_list)):
+                            newform_list.append(list(form_list[i]))
+                            newform_list[i].append(color_list[random.randrange(len(color_list))])
+                            if newform_list[i][3]=='1':
+                                newform_list[i][3]='ラジオボタン'
+                                file1='cache/'+class_name+'_form'+str(i+1)+'.dat'
+                                try:
+                                    with open(file1,'rb') as f:
+                                        branch=pickle.load(f)
+                                except:
+                                    pass
+                                newform_list[i].append(branch)
+                            if newform_list[i][3]=='2':
+                                newform_list[i][3]='チェックボックス'
+                                file1='cache/'+class_name+'_form'+str(i+1)+'.dat'
+                                try:
+                                    with open(file1,'rb') as f:
+                                        branch=pickle.load(f)
+                                except:
+                                    pass
+                                newform_list[i].append(branch)
+                            if newform_list[i][3]=='3':
+                                newform_list[i][3]='自由回答'
+                                newform_list[i].append('7')
+                            formform.append(class_name+'_form'+str(i+1))
+                        for i in range(0,len(formform)):
+                            formal=get_db('number.sqlite3',formform[i])
+                            for x in range(0,len(formal)):
+                                if formal[x][1]==session['id']:
+                                    if formal[x][2]=='0':
+                                        newform_list[i].append('0')
+                                    if formal[x][2]=='1':
+                                        newform_list[i].append('1')
+                                    break
+                        for i in range(0,len(class_list)):
+                            if class_list[i][4]==class_name:
+                                if class_list[i][6]=='0':
+                                    return render_template('class.html',\
+                                        title='class',\
+                                            message=msg,\
+                                                msg2=msg2,\
+                                                    msg3=msg3,\
+                                                        msg5=msg5,\
+                                                            msg4=msg4,\
+                                                                form=False,\
+                                                                    newform_list=newform_list,\
+                                                                        url1=url1,\
+                                                                            afterclass=True)
+                                else:
+                                    return render_template('class.html',\
+                                                    title='class',\
+                                                        message=msg,\
+                                                            msg2=msg2,\
+                                                                msg3=msg3,\
+                                                                    msg5=msg5,\
+                                                                        msg4=msg4,\
+                                                                            form=form,\
+                                                                                newform_list=newform_list,\
+                                                                                    url1=url1,\
+                                                                                        afterclass=False)
         else:
             return redirect('/')
     else:
@@ -739,6 +844,7 @@ def startclass(class_name):
                     id_list=[]
                     for i in range(0,len(status_list)):
                         id_list.append(str(status_list[i][0]))
+                    form_list=get_db('number.sqlite3',class_name+'_form')
                     conn = sqlite3.connect('number.sqlite3')
                     cur = conn.cursor()
                     for i in range(0,len(id_list)):
@@ -746,6 +852,10 @@ def startclass(class_name):
                         cur.execute('UPDATE '+class_name+' SET point="0" WHERE id='+id_list[i])
                         cur.execute('UPDATE '+class_name+' SET tell="0" WHERE id='+id_list[i])
                     cur.execute('UPDATE classes SET status="1" WHERE url="'+class_name+'"')
+                    cur.execute('DROP TABLE '+class_name+'_form')
+                    for i in range(0,len(form_list)):
+                        cur.execute('DROP TABLE '+class_name+'_form'+str(i+1))
+                    cur.execute('CREATE TABLE "'+class_name+'_form" ("id"	INTEGER NOT NULL UNIQUE,"url"	NUMERIC NOT NULL UNIQUE,"sentence"	TEXT NOT NULL,"style"	TEXT NOT NULL,PRIMARY KEY("id" AUTOINCREMENT))')
                     conn.commit()
                     cur.close()
                     conn.close()
@@ -940,6 +1050,327 @@ def register(class_name):
             return '/'
     else:
         return '/'
+
+@app.route('/class/<class_name>/formregister',methods=['POST'])
+def formregister(class_name):
+    url_list=[]
+    if session['login']==True:
+        if 'license' in session:
+            if session['license']==True:
+                class_list=get_db('number.sqlite3','classes')
+                for i in range(0,len(class_list)):
+                    url_list.append(class_list[i][4])
+                if class_name in url_list:
+                    sentence=request.form.get('sentence')
+                    style=request.form.get('style')
+                    formlist=get_db('number.sqlite3',class_name+'_form')
+                    number=str(len(formlist)+1)
+                    if style=='1' or style=='2':
+                        branch=[]
+                        for i in range(0,len(request.form)-2):
+                            branch.append(request.form.get('branch'+str(i+1)))
+                        file1='cache/'+class_name+'_form'+number+'.dat'
+                        try:
+                            with open(file1,'wb') as f:
+                                pickle.dump(branch,f)
+                        except:
+                            return 'false'
+                    conn = sqlite3.connect('number.sqlite3')
+                    cur = conn.cursor()
+                    cur.execute('INSERT INTO '+class_name+'_form VALUES('+number+',"form'+number+'","'+sentence+'","'+style+'")')
+                    cur.execute('CREATE TABLE '+class_name+'_form'+number+' AS SELECT * FROM form_layout')
+                    if style=='1' or style=='2':
+                        for i in range(0,len(branch)-1):
+                            cur.execute('ALTER TABLE '+class_name+'_form'+number+' ADD COLUMN answer'+str(i+2)+'[text]')
+                    conn.commit()
+                    cur.close()
+                    conn.close()
+                    return 'true'
+                else:
+                    return 'false'             
+            else:
+                return 'false'
+        else:
+            return 'false'
+    else:
+        return 'false'
+
+@app.route('/class/<class_name>/<form>',methods=['POST'])
+def form_receive(class_name,form):
+    if session['login']==True:
+        url_list=[]
+        class_list=get_db('number.sqlite3','classes')
+        for i in range(0,len(class_list)):
+            url_list.append(class_list[i][4])
+        if class_name in url_list:
+            for i in range(0,len(class_list)):
+                if class_list[i][4]==class_name:
+                    break
+            form_list=get_db('number.sqlite3',class_name+'_form')
+            noerror=False
+            for i in range(0,len(form_list)):
+                if form_list[i][1]==form:
+                    noerror=True
+                    style=form_list[i][3]
+                    key=i
+                    break
+            if noerror==True:
+                if style=='1':
+                    radio=request.form.get('radio')
+                    file1='cache/'+class_name+'_form'+str(key+1)+'.dat'
+                    try:
+                        with open(file1,'rb') as f:
+                            branch=pickle.load(f)
+                    except:
+                        pass
+                    for i in range(0,len(branch)):
+                        if branch[i]==radio:
+                            key2=i
+                            break
+                    conn = sqlite3.connect('number.sqlite3')
+                    cur = conn.cursor()
+                    cur.execute('UPDATE '+class_name+'_form'+str(key+1)+' SET status="1" WHERE name="'+session['id']+'"')
+                    cur.execute('UPDATE '+class_name+'_form'+str(key+1)+' SET answer'+str(key2+1)+'="1" WHERE name="'+session['id']+'"')
+                    conn.commit()
+                    cur.close()
+                    conn.close()
+                if style=='2':
+                    number=[]
+                    check=request.form.getlist('checkbox')
+                    file1='cache/'+class_name+'_form'+str(key+1)+'.dat'
+                    try:
+                        with open(file1,'rb') as f:
+                            branch=pickle.load(f)
+                    except:
+                        pass
+                    for i in range(0,len(check)):
+                        for x in range(0,len(branch)):
+                            if branch[x]==check[i]:
+                                number.append(str(x+1))
+                                break
+                    conn = sqlite3.connect('number.sqlite3')
+                    cur = conn.cursor()
+                    cur.execute('UPDATE '+class_name+'_form'+str(key+1)+' SET status="1" WHERE name="'+session['id']+'"')
+                    for i in range(0,len(number)):
+                        cur.execute('UPDATE '+class_name+'_form'+str(key+1)+' SET answer'+number[i]+'="1" WHERE name="'+session['id']+'"')
+                    conn.commit()
+                    cur.close()
+                    conn.close()
+                if style=='3':
+                    freeform=request.form.get('freeform')
+                    conn = sqlite3.connect('number.sqlite3')
+                    cur = conn.cursor()
+                    cur.execute('UPDATE '+class_name+'_form'+str(key+1)+' SET status="1" WHERE name="'+session['id']+'"')
+                    cur.execute('UPDATE '+class_name+'_form'+str(key+1)+' SET answer1="'+freeform+'" WHERE name="'+session['id']+'"')
+                    conn.commit()
+                    cur.close()
+                    conn.close()
+                return redirect('/class/'+class_name)
+            else:
+                return redirect('/class/'+class_name)
+        else:
+            return redirect('/')
+    else:
+        return redirect('/')
+
+@app.route('/class/<class_name>/<form>',methods=['GET'])
+def form_pass(class_name,form):
+    if session['login']==True:
+        url_list=[]
+        class_list=get_db('number.sqlite3','classes')
+        for i in range(0,len(class_list)):
+            url_list.append(class_list[i][4])
+        if class_name in url_list:
+            for i in range(0,len(class_list)):
+                if class_list[i][4]==class_name:
+                    key2=i
+                    break
+            form_list=get_db('number.sqlite3',class_name+'_form')
+            noerror=False
+            for i in range(0,len(form_list)):
+                if form_list[i][1]==form:
+                    noerror=True
+                    style=form_list[i][3]
+                    key=i
+                    break
+            if noerror==True:
+                if 'license' in session and session['license']:
+                    msg=session['id']+'先生'
+                else:
+                    msg=session['id']+'さん'
+                msg2=class_name
+                class_list.remove(class_list[key2])
+                msg4=class_list 
+                sentence=form_list[key][2]
+                url1=form
+                detail_form_list=get_db('number.sqlite3',class_name+'_form'+str(key+1))
+                color_list=['#0D6EFD','#198754','#DC3545']
+                if style=='1':
+                    supply2=[]
+                    status_list=get_db('number.sqlite3',class_name)
+                    file1='cache/'+class_name+'_form'+str(key+1)+'.dat'
+                    try:
+                        with open(file1,'rb') as f:
+                            branch=pickle.load(f)
+                    except:
+                        pass
+                    for i in range(0,len(branch)):
+                        supply1=[]
+                        for x in range(0,len(detail_form_list)):
+                            if detail_form_list[x][i+3]=='1':
+                                supply1.append(detail_form_list[x][1])
+                        supply2.append(supply1)
+                    supply1=[]
+                    for i in range(0,len(detail_form_list)):
+                        if detail_form_list[i][2]=='0':
+                            supply1.append(detail_form_list[i][1])
+                    supply2.append(supply1)
+                    for i in range(0,len(supply2)):
+                        for y in range(0,len(supply2[i])):
+                            for x in range(0,len(status_list)):
+                                if supply2[i][y]==status_list[x][1]:
+                                    supply2[i][y]=status_list[x]
+                                    break
+                    finalform=[]
+                    for i in range(0,len(branch)+1):
+                        if i==len(branch):
+                            supply3=[]
+                            supply3.append('未投票')
+                            supply3.append('#6C757D')
+                            supply3.append(block(supply2[i]))
+                            finalform.append(supply3)
+                        else:
+                            supply3=[]
+                            supply3.append(branch[i])
+                            supply3.append(color_list[random.randrange(len(color_list))])
+                            supply3.append(block(supply2[i]))
+                            finalform.append(supply3)
+                    if 'license' in session and session['license']:
+                        return render_template('form.html',\
+                            title='class',\
+                                message=msg,\
+                                    msg2=msg2,\
+                                        finalform=finalform,\
+                                            msg4=msg4,\
+                                                url1=url1,\
+                                                    sentence=sentence)
+                    else:
+                        return render_template('form_student.html',\
+                            title='class',\
+                                message=msg,\
+                                    msg2=msg2,\
+                                        finalform=finalform,\
+                                            msg4=msg4,\
+                                                url1=url1,\
+                                                    sentence=sentence)
+                if style=='2':
+                    supply2=[]
+                    status_list=get_db('number.sqlite3',class_name)
+                    file1='cache/'+class_name+'_form'+str(key+1)+'.dat'
+                    try:
+                        with open(file1,'rb') as f:
+                            branch=pickle.load(f)
+                    except:
+                        pass
+                    for i in range(0,len(branch)):
+                        supply1=[]
+                        for x in range(0,len(detail_form_list)):
+                            if detail_form_list[x][i+3]=='1':
+                                supply1.append(detail_form_list[x][1])
+                        supply2.append(supply1)
+                    supply1=[]
+                    for i in range(0,len(detail_form_list)):
+                        if detail_form_list[i][2]=='0':
+                            supply1.append(detail_form_list[i][1])
+                    supply2.append(supply1)
+                    for i in range(0,len(supply2)):
+                        for y in range(0,len(supply2[i])):
+                            for x in range(0,len(status_list)):
+                                if supply2[i][y]==status_list[x][1]:
+                                    supply2[i][y]=status_list[x]
+                                    break
+                    finalform=[]
+                    for i in range(0,len(branch)+1):
+                        if i==len(branch):
+                            supply3=[]
+                            supply3.append('未投票')
+                            supply3.append('#6C757D')
+                            supply3.append(block(supply2[i]))
+                            finalform.append(supply3)
+                        else:
+                            supply3=[]
+                            supply3.append(branch[i])
+                            supply3.append(color_list[random.randrange(len(color_list))])
+                            supply3.append(block(supply2[i]))
+                            finalform.append(supply3)
+                    if 'license' in session and session['license']:
+                        return render_template('form.html',\
+                            title='class',\
+                                message=msg,\
+                                    msg2=msg2,\
+                                        finalform=finalform,\
+                                            msg4=msg4,\
+                                                url1=url1,\
+                                                    sentence=sentence)
+                    else:
+                        return render_template('form_student.html',\
+                            title='class',\
+                                message=msg,\
+                                    msg2=msg2,\
+                                        finalform=finalform,\
+                                            msg4=msg4,\
+                                                url1=url1,\
+                                                    sentence=sentence)
+                if style=='3':
+                    status_list=get_db('number.sqlite3',class_name)
+                    supply1=[]
+                    supply3=[]
+                    for i in range(0,len(detail_form_list)):
+                        supply2=[]
+                        if detail_form_list[i][2]=='1':
+                            supply2.append(detail_form_list[i][1])
+                            supply2.append(detail_form_list[i][3])
+                            supply1.append(supply2)
+                    for i in range(0,len(detail_form_list)):
+                        if detail_form_list[i][2]=='0':
+                            supply3.append(detail_form_list[i][1])
+                    for i in range(0,len(supply1)):
+                        for x in range(0,len(status_list)):
+                            if supply1[i][0]==status_list[x][1]:
+                                supply1[i].append(status_list[x][3])
+                                supply1[i].append(status_list[x][4])
+                                supply1[i].append(color_list[random.randrange(len(color_list))])
+                                break
+                    for i in range(0,len(supply3)):
+                        for x in range(0,len(status_list)):
+                            if supply3[i]==status_list[x][1]:
+                                supply4=[]
+                                supply4.append(supply3[i])
+                                supply4.append(status_list[x][3])
+                                supply4.append(status_list[x][4])
+                                supply3[i]=supply4
+                                break
+                    supply2=block(supply3)
+                    if 'license' in session and session['license']:
+                        return render_template('freeform.html',\
+                            title='class',\
+                                message=msg,\
+                                    msg2=msg2,\
+                                        supply2=supply2,\
+                                            msg4=msg4,\
+                                                url1=url1,\
+                                                    sentence=sentence,\
+                                                        supply1=supply1)
+                    else:
+                        return render_template('freeform_student.html',\
+                            title='class',\
+                                message=msg,\
+                                    msg2=msg2,\
+                                        supply2=supply2,\
+                                            msg4=msg4,\
+                                                url1=url1,\
+                                                    sentence=sentence,\
+                                                        supply1=supply1)
 
 if __name__=='__main__':
     app.debug=False

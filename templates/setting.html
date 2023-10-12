@@ -17,7 +17,7 @@ Index
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link" href="/" id="nav2" aria-current="page" style="color:white; font-weight: bold; font-size: 25px;">Home</a>
+                        <a class="nav-link" href="/1582" id="nav2" aria-current="page" style="color:white; font-weight: bold; font-size: 25px;">Home</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link disabled" style="color:white; font-weight: bold; font-size: 25px; opacity: .5;">Setting</a>
@@ -28,7 +28,7 @@ Index
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown" style="background-color:rgb(111, 0, 255); width:max-content;">
                             {% for item in msg4 %}
-                            <li><a class="dropdown-item" href={{item[4]}} style="color: white; font-weight:bold;">{{item[1]}}</a></li>
+                            <li><a class="dropdown-item" href=/1582/class/{{item[4]}} style="color: white; font-weight:bold;">{{item[1]}}</a></li>
                             {% endfor %}
                         </ul>
                     </li>  
@@ -37,7 +37,7 @@ Index
         </div>
     </nav>
     <div style="position:absolute; top:13px; right:80px;">
-        <a class="nav-link" href="/logout" style="color:white; font-weight: bold; font-size: 25px;">Logout</a>
+        <a class="nav-link" href="/1582/logout" style="color:white; font-weight: bold; font-size: 25px;">Logout</a>
     </div>
 </div>
 <div style="position: absolute; top:80px; left:20px; right:20px; z-index: -100;">
@@ -59,7 +59,7 @@ Index
         </h4>
     </div>
     <div class="card-body">
-        <form method="post" action="/setting">
+        <form method="post" action="/1582/setting">
             <div class="form-group">
                 <label for="id">old password</label>
                 <input type="password" class="form-control" id="oldpass" name="oldpass" required>

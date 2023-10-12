@@ -28,7 +28,7 @@ Index
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown" style="background-color:rgb(111, 0, 255); width:max-content;">
                             {% for item in msg4 %}
-                            <li><a class="dropdown-item" href=/1582/class/{{item[4]}} style="color: white; font-weight:bold;">{{item[1]}}</a></li>
+                            <li><a class="dropdown-item" href=/1582/{{item[4]}} style="color: white; font-weight:bold;">{{item[1]}}</a></li>
                             {% endfor %}
                         </ul>
                     </li>  
@@ -52,7 +52,7 @@ Index
         <card type="button" onclick="location.href='/1582/class/{{part[4]}}'" style="width:100%; border-left-width: 10px; border-left-color:{{part[8]}}" class="card bg-light mb-2">
                 <div class="card-body">
                     <h5 class="card-title" style="font-weight:bold;">{{part[1]}}</h5>
-                    <p class="card-text">担当教員:{{part[2]}}   教室:{{part[3]}}  {% if part[7]==None %}<a href=/1582/class/{{part[4]}}><img src="/1582/static/参加.png" alt="参加" style="position:absolute; right:10px; bottom:10px;" height="70px">{% else %}<a href=/1582/class/{{part[4]}} class="join"><img src="/1582/static/矢印.png" alt="参加" style="position:absolute; right:100px; bottom:10px;" height="70px" class="join"></a><a href=/1582/class/{{part[4]}}><img src="/1582/static/{{part[7]}}" alt="参加" style="position: absolute; right:10px; bottom:10px;" height="70px">{% endif %}</a></p>   
+                    <p class="card-text">担当教員:{{part[2]}}   教室:{{part[3]}}  {% if part[7]==None %}<a href=/1582/{{part[4]}}><img src="/1582/static/参加.PNG" alt="参加" style="position:absolute; right:10px; bottom:10px;" height="70px">{% else %}<a href=/1582/class/{{part[4]}} class="join"><img src="/1582/static/矢印.PNG" alt="参加" style="position:absolute; right:100px; bottom:10px;" height="70px" class="join"></a><a href=/1582/class/{{part[4]}}><img src="/1582/static/{{part[7]}}" alt="参加" style="position: absolute; right:10px; bottom:10px;" height="70px">{% endif %}</a></p>   
                 </div>
             </card>
         {% endfor %}

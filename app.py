@@ -127,7 +127,7 @@ def login():
 
 @app.route("/login", methods=["POST"])
 def login_post():
-    member = get_db("number.sqlite3", "number")
+    member = get_db("/home/chikako/IDM/number.sqlite3", "number")
     id = request.form.get("id")
     pswd = request.form.get("pass")
     for i in range(0, len(member)):
@@ -164,7 +164,7 @@ def setting():
             msg = session["id"] + "先生"
         else:
             msg = session["id"] + "さん"
-        class_list = get_db("number.sqlite3", "classes")
+        class_list = get_db("/home/chikako/IDM/number.sqlite3", "classes")
         msg2 = []
         msg3 = "パスワードの変更"
         for i in range(0, len(class_list)):
@@ -181,7 +181,7 @@ def setting():
 @app.route("/setting", methods=["POST"])
 def accountchange():
     if "login" in session and session["login"]:
-        member = get_db("number.sqlite3", "number")
+        member = get_db("/home/chikako/IDM/number.sqlite3", "number")
         for i in range(0, len(member)):
             if member[i][1] == session["id"]:
                 key = i
@@ -223,7 +223,7 @@ def accountchange():
                 msg = session["id"] + "先生"
             else:
                 msg = session["id"] + "さん"
-            class_list = get_db("number.sqlite3", "classes")
+            class_list = get_db("/home/chikako/IDM/number.sqlite3", "classes")
             msg2 = []
             for i in range(0, len(class_list)):
                 msg2.append(list(class_list[i]))
@@ -253,7 +253,7 @@ def logout():
 def hello_world(class_name):
     if session["login"] == True:
         url_list = []
-        class_list = get_db("number.sqlite3", "classes")
+        class_list = get_db("/home/chikako/IDM/number.sqlite3", "classes")
         for i in range(0, len(class_list)):
             url_list.append(class_list[i][4])
         if class_name in url_list:
@@ -261,7 +261,7 @@ def hello_world(class_name):
                 if class_list[i][4] == class_name:
                     key = i
                     break
-            status_list = get_db("number.sqlite3", class_name)
+            status_list = get_db("/home/chikako/IDM/number.sqlite3", class_name)
             for i in range(0, len(status_list)):
                 if status_list[i][1] == session["id"]:
                     key2 = i
@@ -269,7 +269,7 @@ def hello_world(class_name):
                 else:
                     key2 = 0
             current = time.time()
-            conn = sqlite3.connect("number.sqlite3")
+            conn = sqlite3.connect("/home/chikako/IDM/number.sqlite3")
             cur = conn.cursor()
             cur.execute(
                 "UPDATE "
@@ -287,7 +287,7 @@ def hello_world(class_name):
                 if class_list[i][4] == class_name:
                     if not class_list[i][6] == "0":
                         if status_list[key2][2] == "0":
-                            conn = sqlite3.connect("number.sqlite3")
+                            conn = sqlite3.connect("/home/chikako/IDM/number.sqlite3")
                             cur = conn.cursor()
                             cur.execute(
                                 "UPDATE "
@@ -308,8 +308,8 @@ def hello_world(class_name):
                             conn.commit()
                             cur.close()
                             conn.close()
-            status_list = get_db("number.sqlite3", class_name)
-            form_list = get_db("number.sqlite3", class_name + "_form")
+            status_list = get_db("/home/chikako/IDM/number.sqlite3", class_name)
+            form_list = get_db("/home/chikako/IDM/number.sqlite3", class_name + "_form")
             color_list = [
                 "rgb(0, 234, 255)",
                 "rgb(162, 255, 0)",
@@ -331,7 +331,7 @@ def hello_world(class_name):
                                         current - 1800
                                     ):
                                         timelist.append(status_list[i][0])
-                                conn = sqlite3.connect("number.sqlite3")
+                                conn = sqlite3.connect("/home/chikako/IDM/number.sqlite3")
                                 cur = conn.cursor()
                                 cur.execute(
                                     'UPDATE classes SET time="'
@@ -385,7 +385,7 @@ def hello_world(class_name):
                         if newstatus_list[i][2] == "5":
                             list5.append(newstatus_list[i])
                     if session["random1"] == True:
-                        file1 = "cache/" + class_name + "_random1.dat"
+                        file1 = "/home/chikako/IDM/cache/" + class_name + "_random1.dat"
                         try:
                             with open(file1, "rb") as f:
                                 oldlist1 = pickle.load(f)
@@ -419,7 +419,7 @@ def hello_world(class_name):
                     else:
                         status1 = block(list1)
                     if session["random2"] == True:
-                        file2 = "cache/" + class_name + "_random2.dat"
+                        file2 = "/home/chikako/IDM/cache/" + class_name + "_random2.dat"
                         try:
                             with open(file2, "rb") as f:
                                 oldlist2 = pickle.load(f)
@@ -452,7 +452,7 @@ def hello_world(class_name):
                                 pass
                     else:
                         status2 = block(list2)
-                    class_list = get_db("number.sqlite3", "classes")
+                    class_list = get_db("/home/chikako/IDM/number.sqlite3", "classes")
                     for i in range(0, len(class_list)):
                         if class_list[i][4] == class_name:
                             choice = class_list[i][6]
@@ -524,17 +524,17 @@ def hello_world(class_name):
                     msg2 = class_list[key][1]
                     class_list.remove(class_list[key])
                     msg4 = class_list
-                    class_list = get_db("number.sqlite3", "classes")
+                    class_list = get_db("/home/chikako/IDM/number.sqlite3", "classes")
                     for i in range(0, len(class_list)):
                         if class_list[i][4] == class_name:
                             if not class_list[i][6] == "0":
                                 msg3 = status_list[key2][2]
                             else:
                                 db_name = class_name + "2"
-                                if db_exists("number.sqlite3", db_name):
-                                    status_list = get_db("number.sqlite3", db_name)
+                                if db_exists("/home/chikako/IDM/number.sqlite3", db_name):
+                                    status_list = get_db("/home/chikako/IDM/number.sqlite3", db_name)
                                     if status_list[key2][2] == "0":
-                                        conn = sqlite3.connect("number.sqlite3")
+                                        conn = sqlite3.connect("/home/chikako/IDM/number.sqlite3")
                                         cur = conn.cursor()
                                         cur.execute(
                                             "UPDATE "
@@ -546,7 +546,7 @@ def hello_world(class_name):
                                         conn.commit()
                                         cur.close()
                                         conn.close()
-                                    status_list = get_db("number.sqlite3", db_name)
+                                    status_list = get_db("/home/chikako/IDM/number.sqlite3", db_name)
                                     msg3 = status_list[key2][2]
                     msg5 = class_name
                     form = True
@@ -575,7 +575,7 @@ def hello_world(class_name):
                             if newform_list[i][3] == "1":
                                 newform_list[i][3] = "ラジオボタン"
                                 file1 = (
-                                    "cache/"
+                                    "/home/chikako/IDM/cache/"
                                     + class_name
                                     + "_form"
                                     + str(i + 1)
@@ -590,7 +590,7 @@ def hello_world(class_name):
                             if newform_list[i][3] == "2":
                                 newform_list[i][3] = "チェックボックス"
                                 file1 = (
-                                    "cache/"
+                                    "/home/chikako/IDM/cache/"
                                     + class_name
                                     + "_form"
                                     + str(i + 1)
@@ -607,7 +607,7 @@ def hello_world(class_name):
                                 newform_list[i].append("7")
                             formform.append(class_name + "_form" + str(i + 1))
                         for i in range(0, len(formform)):
-                            formal = get_db("number.sqlite3", formform[i])
+                            formal = get_db("/home/chikako/IDM/number.sqlite3", formform[i])
                             for x in range(0, len(formal)):
                                 if formal[x][1] == session["id"]:
                                     if formal[x][2] == "0":
@@ -654,11 +654,11 @@ def hello_world(class_name):
 @app.route("/class/<class_name>/post1", methods=["GET"])
 def receive_status1(class_name):
     newid2 = str(session["id"])
-    class_list = get_db("number.sqlite3", "classes")
+    class_list = get_db("/home/chikako/IDM/number.sqlite3", "classes")
     for i in range(0, len(class_list)):
         if class_list[i][4] == class_name:
             if not class_list[i][6] == "0":
-                conn = sqlite3.connect("number.sqlite3")
+                conn = sqlite3.connect("/home/chikako/IDM/number.sqlite3")
                 cur = conn.cursor()
                 cur.execute(
                     "UPDATE " + class_name + ' SET status=1 WHERE name="' + newid2 + '"'
@@ -669,8 +669,8 @@ def receive_status1(class_name):
                 return redirect("/class/" + class_name)
             else:
                 db_name = class_name + "2"
-                if db_exists("number.sqlite3", db_name):
-                    conn = sqlite3.connect("number.sqlite3")
+                if db_exists("/home/chikako/IDM/number.sqlite3", db_name):
+                    conn = sqlite3.connect("/home/chikako/IDM/number.sqlite3")
                     cur = conn.cursor()
                     cur.execute(
                         "UPDATE "
@@ -688,11 +688,11 @@ def receive_status1(class_name):
 @app.route("/class/<class_name>/post2", methods=["GET"])
 def receive_status2(class_name):
     newid2 = str(session["id"])
-    class_list = get_db("number.sqlite3", "classes")
+    class_list = get_db("/home/chikako/IDM/number.sqlite3", "classes")
     for i in range(0, len(class_list)):
         if class_list[i][4] == class_name:
             if not class_list[i][6] == "0":
-                conn = sqlite3.connect("number.sqlite3")
+                conn = sqlite3.connect("/home/chikako/IDM/number.sqlite3")
                 cur = conn.cursor()
                 cur.execute(
                     "UPDATE " + class_name + ' SET status=2 WHERE name="' + newid2 + '"'
@@ -703,8 +703,8 @@ def receive_status2(class_name):
                 return redirect("/class/" + class_name)
             else:
                 db_name = class_name + "2"
-                if db_exists("number.sqlite3", db_name):
-                    conn = sqlite3.connect("number.sqlite3")
+                if db_exists("/home/chikako/IDM/number.sqlite3", db_name):
+                    conn = sqlite3.connect("/home/chikako/IDM/number.sqlite3")
                     cur = conn.cursor()
                     cur.execute(
                         "UPDATE "
@@ -722,11 +722,11 @@ def receive_status2(class_name):
 @app.route("/class/<class_name>/post3", methods=["GET"])
 def receive_status3(class_name):
     newid2 = str(session["id"])
-    class_list = get_db("number.sqlite3", "classes")
+    class_list = get_db("/home/chikako/IDM/number.sqlite3", "classes")
     for i in range(0, len(class_list)):
         if class_list[i][4] == class_name:
             if not class_list[i][6] == "0":
-                conn = sqlite3.connect("number.sqlite3")
+                conn = sqlite3.connect("/home/chikako/IDM/number.sqlite3")
                 cur = conn.cursor()
                 cur.execute(
                     "UPDATE " + class_name + ' SET status=3 WHERE name="' + newid2 + '"'
@@ -737,8 +737,8 @@ def receive_status3(class_name):
                 return redirect("/class/" + class_name)
             else:
                 db_name = class_name + "2"
-                if db_exists("number.sqlite3", db_name):
-                    conn = sqlite3.connect("number.sqlite3")
+                if db_exists("/home/chikako/IDM/number.sqlite3", db_name):
+                    conn = sqlite3.connect("/home/chikako/IDM/number.sqlite3")
                     cur = conn.cursor()
                     cur.execute(
                         "UPDATE "
@@ -756,11 +756,11 @@ def receive_status3(class_name):
 @app.route("/class/<class_name>/post4", methods=["GET"])
 def receive_status4(class_name):
     newid2 = str(session["id"])
-    class_list = get_db("number.sqlite3", "classes")
+    class_list = get_db("/home/chikako/IDM/number.sqlite3", "classes")
     for i in range(0, len(class_list)):
         if class_list[i][4] == class_name:
             if not class_list[i][6] == "0":
-                conn = sqlite3.connect("number.sqlite3")
+                conn = sqlite3.connect("/home/chikako/IDM/number.sqlite3")
                 cur = conn.cursor()
                 cur.execute(
                     "UPDATE " + class_name + ' SET status=4 WHERE name="' + newid2 + '"'
@@ -771,8 +771,8 @@ def receive_status4(class_name):
                 return redirect("/class/" + class_name)
             else:
                 db_name = class_name + "2"
-                if db_exists("number.sqlite3", db_name):
-                    conn = sqlite3.connect("number.sqlite3")
+                if db_exists("/home/chikako/IDM/number.sqlite3", db_name):
+                    conn = sqlite3.connect("/home/chikako/IDM/number.sqlite3")
                     cur = conn.cursor()
                     cur.execute(
                         "UPDATE "
@@ -789,8 +789,8 @@ def receive_status4(class_name):
 
 @app.route("/class/<class_name>/correct", methods=["GET"])
 def correct(class_name):
-    file3 = "cache/" + class_name + "_correct.dat"
-    status_list = get_db("number.sqlite3", class_name)
+    file3 = "/home/chikako/IDM/cache/" + class_name + "_correct.dat"
+    status_list = get_db("/home/chikako/IDM/number.sqlite3", class_name)
     list0 = []
     list1 = []
     list2 = []
@@ -817,7 +817,7 @@ def correct(class_name):
         if newstatus_list[i][2] == "5":
             list5.append(newstatus_list[i])
     if session["random1"] == True:
-        file1 = "cache/" + class_name + "_random1.dat"
+        file1 = "/home/chikako/IDM/cache/" + class_name + "_random1.dat"
         try:
             with open(file1, "rb") as f:
                 oldlist1 = pickle.load(f)
@@ -851,7 +851,7 @@ def correct(class_name):
     else:
         status1 = block(list1)
     if session["random2"] == True:
-        file2 = "cache/" + class_name + "_random2.dat"
+        file2 = "/home/chikako/IDM/cache/" + class_name + "_random2.dat"
         try:
             with open(file2, "rb") as f:
                 oldlist2 = pickle.load(f)
@@ -926,11 +926,11 @@ def random1(class_name):
         if "license" in session:
             if session["license"] == True:
                 url_list = []
-                class_list = get_db("number.sqlite3", "classes")
+                class_list = get_db("/home/chikako/IDM/number.sqlite3", "classes")
                 for i in range(0, len(class_list)):
                     url_list.append(class_list[i][4])
                 if class_name in url_list:
-                    file = "cache/" + class_name + "_random1.dat"
+                    file = "/home/chikako/IDM/cache/" + class_name + "_random1.dat"
                     if os.path.exists(file):
                         os.remove(file)
                     session["random1"] = True
@@ -951,11 +951,11 @@ def random2(class_name):
         if "license" in session:
             if session["license"] == True:
                 url_list = []
-                class_list = get_db("number.sqlite3", "classes")
+                class_list = get_db("/home/chikako/IDM/number.sqlite3", "classes")
                 for i in range(0, len(class_list)):
                     url_list.append(class_list[i][4])
                 if class_name in url_list:
-                    file = "cache/" + class_name + "_random2.dat"
+                    file = "/home/chikako/IDM/cache/" + class_name + "_random2.dat"
                     if os.path.exists(file):
                         os.remove(file)
                     session["random2"] = True
@@ -976,16 +976,16 @@ def startclass(class_name):
         if "license" in session:
             if session["license"] == True:
                 url_list = []
-                class_list = get_db("number.sqlite3", "classes")
+                class_list = get_db("/home/chikako/IDM/number.sqlite3", "classes")
                 for i in range(0, len(class_list)):
                     url_list.append(class_list[i][4])
                 if class_name in url_list:
-                    status_list = get_db("number.sqlite3", class_name)
+                    status_list = get_db("/home/chikako/IDM/number.sqlite3", class_name)
                     id_list = []
                     for i in range(0, len(status_list)):
                         id_list.append(str(status_list[i][0]))
-                    form_list = get_db("number.sqlite3", class_name + "_form")
-                    conn = sqlite3.connect("number.sqlite3")
+                    form_list = get_db("/home/chikako/IDM/number.sqlite3", class_name + "_form")
+                    conn = sqlite3.connect("/home/chikako/IDM/number.sqlite3")
                     cur = conn.cursor()
                     for i in range(0, len(id_list)):
                         cur.execute(
@@ -1020,8 +1020,8 @@ def startclass(class_name):
                     conn.commit()
                     cur.close()
                     conn.close()
-                    file = "cache/" + class_name + "_random1.dat"
-                    file2 = "cache/" + class_name + "_random2.dat"
+                    file = "/home/chikako/IDM/cache/" + class_name + "_random1.dat"
+                    file2 = "/home/chikako/IDM/cache/" + class_name + "_random2.dat"
                     if os.path.exists(file):
                         os.remove(file)
                     if os.path.exists(file2):
@@ -1041,14 +1041,14 @@ def startvote(class_name):
         if "license" in session:
             if session["license"] == True:
                 url_list = []
-                class_list = get_db("number.sqlite3", "classes")
+                class_list = get_db("/home/chikako/IDM/number.sqlite3", "classes")
                 for i in range(0, len(class_list)):
                     url_list.append(class_list[i][4])
                 if class_name in url_list:
                     for i in range(0, len(class_list)):
                         if class_list[i][4] == class_name:
                             if not class_list[i][6] == "0":
-                                conn = sqlite3.connect("number.sqlite3")
+                                conn = sqlite3.connect("/home/chikako/IDM/number.sqlite3")
                                 cur = conn.cursor()
                                 cur.execute(
                                     "UPDATE "
@@ -1078,8 +1078,8 @@ def startvote(class_name):
                                 conn.commit()
                                 cur.close()
                                 conn.close()
-                                file = "cache/" + class_name + "_random1.dat"
-                                file2 = "cache/" + class_name + "_random2.dat"
+                                file = "/home/chikako/IDM/cache/" + class_name + "_random1.dat"
+                                file2 = "/home/chikako/IDM/cache/" + class_name + "_random2.dat"
                                 if os.path.exists(file):
                                     os.remove(file)
                                 if os.path.exists(file2):
@@ -1103,14 +1103,14 @@ def finishvote(class_name):
     if session["login"] == True:
         if "license" in session:
             if session["license"] == True:
-                class_list = get_db("number.sqlite3", "classes")
+                class_list = get_db("/home/chikako/IDM/number.sqlite3", "classes")
                 for i in range(0, len(class_list)):
                     url_list.append(class_list[i][4])
                 if class_name in url_list:
                     for i in range(0, len(class_list)):
                         if class_list[i][4] == class_name:
                             if not class_list[i][6] == "0":
-                                status_list = get_db("number.sqlite3", class_name)
+                                status_list = get_db("/home/chikako/IDM/number.sqlite3", class_name)
                                 list0 = []
                                 for i in range(0, len(status_list)):
                                     list0.append(list(status_list[i]))
@@ -1133,7 +1133,7 @@ def finishvote(class_name):
                                     list2[i][3] = str(new)
                                     original2 = list2[i][0]
                                     list2[i][0] = str(original2)
-                                conn = sqlite3.connect("number.sqlite3")
+                                conn = sqlite3.connect("/home/chikako/IDM/number.sqlite3")
                                 cur = conn.cursor()
                                 cur.execute(
                                     'UPDATE classes SET status="1" WHERE url="'
@@ -1182,13 +1182,13 @@ def finishclass(class_name):
     if session["login"] == True:
         if "license" in session:
             if session["license"] == True:
-                class_list = get_db("number.sqlite3", "classes")
+                class_list = get_db("/home/chikako/IDM/number.sqlite3", "classes")
                 for i in range(0, len(class_list)):
                     url_list.append(class_list[i][4])
                 if class_name in url_list:
                     db_name = class_name + "2"
-                    if db_exists("number.sqlite3", db_name) == 0:
-                        conn = sqlite3.connect("number.sqlite3")
+                    if db_exists("/home/chikako/IDM/number.sqlite3", db_name) == 0:
+                        conn = sqlite3.connect("/home/chikako/IDM/number.sqlite3")
                         cur = conn.cursor()
                         cur.execute(
                             'UPDATE classes SET status="0" WHERE url="'
@@ -1206,7 +1206,7 @@ def finishclass(class_name):
                         cur.close()
                         conn.close()
                     else:
-                        conn = sqlite3.connect("number.sqlite3")
+                        conn = sqlite3.connect("/home/chikako/IDM/number.sqlite3")
                         cur = conn.cursor()
                         cur.execute(
                             'UPDATE classes SET status="0" WHERE url="'
@@ -1241,14 +1241,14 @@ def register(class_name):
     if session["login"] == True:
         if "license" in session:
             if session["license"] == True:
-                class_list = get_db("number.sqlite3", "classes")
+                class_list = get_db("/home/chikako/IDM/number.sqlite3", "classes")
                 for i in range(0, len(class_list)):
                     url_list.append(class_list[i][4])
                 if class_name in url_list:
                     id = request.form.get("id")
                     point = request.form.get("point")
                     tell = request.form.get("tell")
-                    status_list = get_db("number.sqlite3", class_name)
+                    status_list = get_db("/home/chikako/IDM/number.sqlite3", class_name)
                     list1 = []
                     list1.append(id)
                     for i in range(0, len(status_list)):
@@ -1256,7 +1256,7 @@ def register(class_name):
                             list1.append(point)
                             list1.append(tell)
                             break
-                    conn = sqlite3.connect("number.sqlite3")
+                    conn = sqlite3.connect("/home/chikako/IDM/number.sqlite3")
                     cur = conn.cursor()
                     cur.execute(
                         "UPDATE "
@@ -1294,25 +1294,25 @@ def formregister(class_name):
     if session["login"] == True:
         if "license" in session:
             if session["license"] == True:
-                class_list = get_db("number.sqlite3", "classes")
+                class_list = get_db("/home/chikako/IDM/number.sqlite3", "classes")
                 for i in range(0, len(class_list)):
                     url_list.append(class_list[i][4])
                 if class_name in url_list:
                     sentence = request.form.get("sentence")
                     style = request.form.get("style")
-                    formlist = get_db("number.sqlite3", class_name + "_form")
+                    formlist = get_db("/home/chikako/IDM/number.sqlite3", class_name + "_form")
                     number = str(len(formlist) + 1)
                     if style == "1" or style == "2":
                         branch = []
                         for i in range(0, len(request.form) - 2):
                             branch.append(request.form.get("branch" + str(i + 1)))
-                        file1 = "cache/" + class_name + "_form" + number + ".dat"
+                        file1 = "/home/chikako/IDM/cache/" + class_name + "_form" + number + ".dat"
                         try:
                             with open(file1, "wb") as f:
                                 pickle.dump(branch, f)
                         except:
                             return "false"
-                    conn = sqlite3.connect("number.sqlite3")
+                    conn = sqlite3.connect("/home/chikako/IDM/number.sqlite3")
                     cur = conn.cursor()
                     cur.execute(
                         "INSERT INTO "
@@ -1363,14 +1363,14 @@ def formregister(class_name):
 def form_receive(class_name, form):
     if session["login"] == True:
         url_list = []
-        class_list = get_db("number.sqlite3", "classes")
+        class_list = get_db("/home/chikako/IDM/number.sqlite3", "classes")
         for i in range(0, len(class_list)):
             url_list.append(class_list[i][4])
         if class_name in url_list:
             for i in range(0, len(class_list)):
                 if class_list[i][4] == class_name:
                     break
-            form_list = get_db("number.sqlite3", class_name + "_form")
+            form_list = get_db("/home/chikako/IDM/number.sqlite3", class_name + "_form")
             noerror = False
             for i in range(0, len(form_list)):
                 if form_list[i][1] == form:
@@ -1381,7 +1381,7 @@ def form_receive(class_name, form):
             if noerror == True:
                 if style == "1":
                     radio = request.form.get("radio")
-                    file1 = "cache/" + class_name + "_form" + str(key + 1) + ".dat"
+                    file1 = "/home/chikako/IDM/cache/" + class_name + "_form" + str(key + 1) + ".dat"
                     try:
                         with open(file1, "rb") as f:
                             branch = pickle.load(f)
@@ -1391,7 +1391,7 @@ def form_receive(class_name, form):
                         if branch[i] == radio:
                             key2 = i
                             break
-                    conn = sqlite3.connect("number.sqlite3")
+                    conn = sqlite3.connect("/home/chikako/IDM/number.sqlite3")
                     cur = conn.cursor()
                     cur.execute(
                         "UPDATE "
@@ -1419,7 +1419,7 @@ def form_receive(class_name, form):
                 if style == "2":
                     number = []
                     check = request.form.getlist("checkbox")
-                    file1 = "cache/" + class_name + "_form" + str(key + 1) + ".dat"
+                    file1 = "/home/chikako/IDM/cache/" + class_name + "_form" + str(key + 1) + ".dat"
                     try:
                         with open(file1, "rb") as f:
                             branch = pickle.load(f)
@@ -1430,7 +1430,7 @@ def form_receive(class_name, form):
                             if branch[x] == check[i]:
                                 number.append(str(x + 1))
                                 break
-                    conn = sqlite3.connect("number.sqlite3")
+                    conn = sqlite3.connect("/home/chikako/IDM/number.sqlite3")
                     cur = conn.cursor()
                     cur.execute(
                         "UPDATE "
@@ -1458,7 +1458,7 @@ def form_receive(class_name, form):
                     conn.close()
                 if style == "3":
                     freeform = request.form.get("freeform")
-                    conn = sqlite3.connect("number.sqlite3")
+                    conn = sqlite3.connect("/home/chikako/IDM/number.sqlite3")
                     cur = conn.cursor()
                     cur.execute(
                         "UPDATE "
@@ -1496,7 +1496,7 @@ def form_receive(class_name, form):
 def form_pass(class_name, form):
     if session["login"] == True:
         url_list = []
-        class_list = get_db("number.sqlite3", "classes")
+        class_list = get_db("/home/chikako/IDM/number.sqlite3", "classes")
         for i in range(0, len(class_list)):
             url_list.append(class_list[i][4])
         if class_name in url_list:
@@ -1504,7 +1504,7 @@ def form_pass(class_name, form):
                 if class_list[i][4] == class_name:
                     key2 = i
                     break
-            form_list = get_db("number.sqlite3", class_name + "_form")
+            form_list = get_db("/home/chikako/IDM/number.sqlite3", class_name + "_form")
             noerror = False
             for i in range(0, len(form_list)):
                 if form_list[i][1] == form:
@@ -1523,13 +1523,13 @@ def form_pass(class_name, form):
                 sentence = form_list[key][2]
                 url1 = form
                 detail_form_list = get_db(
-                    "number.sqlite3", class_name + "_form" + str(key + 1)
+                    "/home/chikako/IDM/number.sqlite3", class_name + "_form" + str(key + 1)
                 )
                 color_list = ["#0D6EFD", "#198754", "#DC3545"]
                 if style == "1":
                     supply2 = []
-                    status_list = get_db("number.sqlite3", class_name)
-                    file1 = "cache/" + class_name + "_form" + str(key + 1) + ".dat"
+                    status_list = get_db("/home/chikako/IDM/number.sqlite3", class_name)
+                    file1 = "/home/chikako/IDM/cache/" + class_name + "_form" + str(key + 1) + ".dat"
                     try:
                         with open(file1, "rb") as f:
                             branch = pickle.load(f)
@@ -1592,8 +1592,8 @@ def form_pass(class_name, form):
                         )
                 if style == "2":
                     supply2 = []
-                    status_list = get_db("number.sqlite3", class_name)
-                    file1 = "cache/" + class_name + "_form" + str(key + 1) + ".dat"
+                    status_list = get_db("/home/chikako/IDM/number.sqlite3", class_name)
+                    file1 = "/home/chikako/IDM/cache/" + class_name + "_form" + str(key + 1) + ".dat"
                     try:
                         with open(file1, "rb") as f:
                             branch = pickle.load(f)
@@ -1655,7 +1655,7 @@ def form_pass(class_name, form):
                             sentence=sentence,
                         )
                 if style == "3":
-                    status_list = get_db("number.sqlite3", class_name)
+                    status_list = get_db("/home/chikako/IDM/number.sqlite3", class_name)
                     supply1 = []
                     supply3 = []
                     for i in range(0, len(detail_form_list)):
@@ -1714,4 +1714,4 @@ def form_pass(class_name, form):
 
 if __name__ == "__main__":
     app.debug = False
-    app.run(host="0.0.0.0")
+    app.run(host="localhost")

@@ -92,6 +92,7 @@ def error_500(e):
     return redirect("/")
 
 
+
 @app.route("/", methods=["GET"])
 def index():
     if "login" in session and session["login"]:
@@ -99,7 +100,7 @@ def index():
             msg = session["id"] + "先生"
         else:
             msg = session["id"] + "さん"
-        class_list = get_db("number.sqlite3", "classes")
+        class_list = get_db("/home/chikako/IDM/number.sqlite3", "classes")
         msg2 = []
         for i in range(0, len(class_list)):
             msg2.append(list(class_list[i]))
@@ -195,7 +196,7 @@ def accountchange():
                 newpswdagain = request.form.get("newpassagain")
                 if newpswd == newpswdagain:
                     if member[key][2] == oldpswd:
-                        conn = sqlite3.connect("number.sqlite3")
+                        conn = sqlite3.connect("/home/chikako/IDM/number.sqlite3")
                         cur = conn.cursor()
                         cur.execute(
                             'UPDATE number SET pswd="'
@@ -1263,16 +1264,18 @@ def register(class_name):
                         + class_name
                         + ' SET tell="'
                         + list1[2]
-                        + '" WHERE name='
+                        + '" WHERE name="'
                         + list1[0]
+                        + '"'
                     )
                     cur.execute(
                         "UPDATE "
                         + class_name
                         + ' SET point="'
                         + list1[1]
-                        + '" WHERE name='
+                        + '" WHERE name="'
                         + list1[0]
+                        + '"'
                     )
                     conn.commit()
                     cur.close()
